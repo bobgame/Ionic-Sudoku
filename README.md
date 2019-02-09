@@ -1,2 +1,2 @@
 # NgSodu
-Soduku  by Angular and ionic
+Soduku use Angular and ionic by Bob Liu
