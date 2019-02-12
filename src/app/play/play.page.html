@@ -23,16 +23,16 @@
       <div *ngFor="let s of numArr" class="number-s" [ngClass]="{'line-b-s': s % 3 != 0, 'line-b-m': s % 3 == 0 && s != 9}">
         <div *ngFor="let h of numArr" class="number-item" [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9}">
           <div class="num" *ngIf="seeIfBlank(s * 10 + h)">{{soduArr[s * 10 + h]}}</div>
-          <div class="num num-empty" *ngIf="!seeIfBlank(s * 10 + h)" id="empty{{s}}{{h}}">{{soduEditArr[s * 10 + h]}}</div>
+          <div class="num num-empty" *ngIf="!seeIfBlank(s * 10 + h)" id="empty{{s}}{{h}}" (click)="setShowEditNumber(s * 10 + h)" [ngClass]="{'active': soduShow.editNumber == s * 10 + h}">{{soduEditArr[s * 10 + h]}}</div>
         </div>
       </div>
     </div>
   </div>
   <div class="number-btns">
-    <div class="num-btn" *ngFor="let number of numArr" btn>{{number}}</div>
-    <div class="num-clear" btn>
+    <ion-button class="num-btn" *ngFor="let number of numArr" btn (click)="setEditArrNumber(number)" [disabled]="soduShow.editNumber == null">{{number}}</ion-button>
+    <ion-button class="num-clear" btn>
       <ion-icon name="close"></ion-icon>
-    </div>
+    </ion-button>
   </div>
   <div class="tools" text-center padding>
     <ion-button btn (click)="newGame()">New Game</ion-button>

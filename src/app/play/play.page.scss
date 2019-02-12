@@ -45,6 +45,10 @@
 
       .num-empty {
         background: rgba(0, 0, 0, .05);
+
+        &.active {
+          outline: 3px solid var(--ion-color-primary);
+        }
       }
     }
   }
@@ -63,5 +67,6 @@
     align-items: center;
     justify-content: center;
     font-size: 7vw;
+    margin: 0;
   }
 }
