@@ -165,6 +165,10 @@
 // iOS only CSS variables can go here
 
 .ios {
+  .num-btn,
+  .tool-btn{
+    --background-activated: #eee;
+  }
 }
 
 // App Material Design Variables
