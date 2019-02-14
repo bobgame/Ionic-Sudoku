@@ -10,7 +10,7 @@
 }
 
 .number-content {
-  border: 4px solid #000;
+  border: 4px solid #333;
   width: 96vw;
   height: 96vw;
   margin-left: 2vw;
@@ -20,11 +20,11 @@
     height: calc(100% / 9);
 
     &.line-b-s {
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid #999;
     }
 
     &.line-b-m {
-      border-bottom: 2px solid #000;
+      border-bottom: 2px solid #666;
     }
 
     .number-item {
@@ -33,17 +33,18 @@
       height: 100%;
       font-size: 7vw;
       color: #333;
+      transition: all .3s;
 
       &.line-r-s {
-        border-right: 1px solid #000;
+        border-right: 1px solid #999;
       }
 
       &.line-r-m {
-        border-right: 2px solid #000;
+        border-right: 2px solid #666;
       }
 
       &.num-tip-bg {
-        background: rgba(0, 0, 0, .05);
+        background: rgba(0, 0, 0, .03);
       }
 
       .num {
@@ -52,22 +53,31 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all .3s;
       }
 
       .num-empty {
         color: var(--ion-color-primary);
-        background: rgba(255, 255, 255, .5);
+        // background: rgba(255, 255, 255, .5);
 
         &.active {
-          outline: 3px solid var(--ion-color-primary);
-          background: #fff;
+          position: relative;
+          outline: 2px solid var(--ion-color-primary);
+          background-color: rgba(255, 255, 255, .5);
+          box-shadow: 0 0 10px 2px var(--ion-color-primary);
         }
 
         &.error {
-          color: #ff0000;
+          position: relative;
+          color: var(--ion-color-danger);
           -webkit-animation: quiver 6s linear infinite backwards;
           -moz-animation: quiver 6s linear infinite backwards;
           animation: quiver 6s linear infinite backwards;
+
+          &.active {
+            outline: 2px solid var(--ion-color-danger);
+            box-shadow: 0 0 10px 2px var(--ion-color-danger);
+          }
         }
       }
     }
@@ -116,8 +126,10 @@
   display: inline-block;
   width: calc(100% / 5);
   font-size: 0;
+
   ion-icon {
     font-size: 10vw;
+    color: #666;
   }
 }
 

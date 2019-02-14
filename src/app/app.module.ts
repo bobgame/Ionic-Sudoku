@@ -10,7 +10,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 import 'hammerjs';
+
+import { SoduService } from './service/sodu/sodu.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,11 +25,13 @@ import 'hammerjs';
       name: '__sodudb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    SoduService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

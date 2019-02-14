@@ -11,10 +11,10 @@
   <div class="game-header">
     <ion-row>
       <ion-col size="6" text-left>
-        Easy
+        {{soduData.nowMode}} {{soduData.mode[soduData.nowMode]}}
       </ion-col>
       <ion-col size="6" text-right>
-        {{showTime}}
+        {{soduShow.showTime}}
       </ion-col>
     </ion-row>
   </div>
@@ -22,11 +22,11 @@
     <div class="number-content">
       <div *ngFor="let s of numArr" class="number-s" [ngClass]="{'line-b-s': s % 3 != 0, 'line-b-m': s % 3 == 0 && s != 9}">
         <div *ngFor="let h of numArr" class="number-item" [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9, 'num-tip-bg': soduShow.tipNumberIndexes.indexOf(s * 10 + h) > -1}">
-          <div class="num" *ngIf="seeIfBlank(s * 10 + h)" (click)="checkSomeNumbers(soduArr[s * 10 + h])">
-            {{soduEditArr[s * 10 + h]}}
+          <div class="num" *ngIf="seeIfBlank(s * 10 + h)" (click)="checkSomeNumbers(soduData.soduArr[s * 10 + h])">
+            {{soduData.soduEditArr[s * 10 + h]}}
           </div>
-          <div class="num num-empty" *ngIf="!seeIfBlank(s * 10 + h)" [ngClass]="{'active': soduShow.editNumber == s * 10 + h, 'error': errorArr.indexOf(s * 10 + h) > -1}" (click)="setShowEditNumber(s * 10 + h)">
-            {{soduEditArr[s * 10 + h]}}
+          <div class="num num-empty" *ngIf="!seeIfBlank(s * 10 + h)" [ngClass]="{'active': soduShow.editNumber == s * 10 + h, 'error': soduData.errorArr.indexOf(s * 10 + h) > -1}" (click)="setShowEditNumber(s * 10 + h)">
+            {{soduData.soduEditArr[s * 10 + h]}}
           </div>
         </div>
       </div>
@@ -37,11 +37,11 @@
       <ion-button class="num-btn" *ngFor="let number of numArr" (click)="clickEditNumber(number)" [disabled]="soduShow.editNumber == null">{{number}}</ion-button>
     </div>
     <div class="tools-btns" text-center>
-      <ion-button class="tool-btn num-clear" (click)="clearEditNumber()" [disabled]="soduShow.editNumber == null">
+      <ion-button class="tool-btn" (click)="clearEditNumber()" [disabled]="soduShow.editNumber == null">
         <ion-icon src="assets/svg/clear.svg"></ion-icon>
         <!-- <ion-icon name="close" class="clear-btn"></ion-icon> -->
       </ion-button>
-      <ion-button class="tool-btn num-clear">
+      <ion-button class="tool-btn" [disabled]="soduShow.editNumber == null">
         <ion-icon src="assets/svg/small.svg"></ion-icon>
       </ion-button>
     </div>
