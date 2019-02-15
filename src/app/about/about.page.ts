@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SoduService } from '../service/sodu/sodu.service';
 
 @Component({
   selector: 'app-about',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-
-  constructor() { }
+  constructor(
+    private soduService: SoduService,
+  ) { }
 
   ngOnInit() {
+    this.soduService.pauseShowTime()
   }
 
 }

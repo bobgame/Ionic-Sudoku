@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CelShowTime } from '../../utils/get-time';
 import { Storage } from '@ionic/storage';
 import { SoduService } from '../service/sodu/sodu.service';
 
@@ -14,6 +13,16 @@ export class PlayPage implements OnInit, OnDestroy {
     private storage: Storage,
     private soduService: SoduService,
   ) {
+    this.soduService.InitSodu()
+    const checksoduReadyInterval = setInterval(() => {
+      console.log('checksoduReadyInterval')
+      if (this.soduService.soduShow.soduReady) {
+        this.soduData = this.soduService.SODUDATA
+        this.soduShow = this.soduService.soduShow
+        clearInterval(checksoduReadyInterval)
+        this.startShowTime()
+      }
+    }, 100)
   }
 
   numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -43,16 +52,6 @@ export class PlayPage implements OnInit, OnDestroy {
     this.pauseShowTime()
   }
   ngOnInit() {
-    this.soduService.InitSodu()
-    const checksoduReadyInterval = setInterval(() => {
-      console.log('checksoduReadyInterval')
-      if (this.soduService.soduShow.soduReady) {
-        this.soduData = this.soduService.SODUDATA
-        this.soduShow = this.soduService.soduShow
-        clearInterval(checksoduReadyInterval)
-        this.startShowTime()
-      }
-    }, 100)
   }
 
   newGame(): void {
