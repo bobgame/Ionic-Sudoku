@@ -3,6 +3,15 @@
   width: 100%;
 }
 
+ion-content {
+  opacity: 0;
+  transition: all 1.5s;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
 .game-header {
   padding: 1vh 2vw 0.2vh;
   height: 34px;
@@ -79,6 +88,28 @@
             box-shadow: 0 0 10px 2px var(--ion-color-danger);
           }
         }
+
+        .small-con {
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, .03);
+        }
+
+        .small-number {
+          opacity: 0;
+          color: #666666;
+          float: left;
+          width: calc(100% / 3);
+          height: calc(100% / 3);
+          font-size: 2.8vw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &.active {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -97,8 +128,7 @@
   overflow: hidden;
 }
 
-.num-btn,
-.tool-btn {
+.num-btn {
   float: left;
   width: calc(100% / 9);
   height: 8vh;
@@ -121,22 +151,45 @@
   }
 }
 
-.tool-btn {
-  float: none;
-  display: inline-block;
-  width: calc(100% / 5);
-  font-size: 0;
-
-  ion-icon {
-    font-size: 10vw;
-    color: #666;
-  }
-}
 
 .tools-btns {
   width: 96vw;
   margin-left: 2vw;
   overflow: hidden;
+
+  .tool-btn {
+    width: calc(100% / 5);
+    height: 8vh;
+    font-size: 0;
+    margin: 0;
+    --background: none;
+    --box-shadow: none;
+    --border-radius: 0;
+    --color: #333;
+    --color-activated: #333;
+    --ripple-color: #ccc;
+    --padding-end: unset;
+    --padding-start: unset;
+
+    &[disabled] {
+      --background: none;
+    }
+
+    ion-icon {
+      font-size: 10vw;
+      color: #666;
+    }
+
+    &.small-btn {
+      ion-icon {
+        display: none;
+
+        &.active {
+          display: block;
+        }
+      }
+    }
+  }
 }
 
 .game-btns {

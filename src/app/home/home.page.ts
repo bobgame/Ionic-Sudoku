@@ -11,7 +11,18 @@ export class HomePage implements OnInit {
     private soduService: SoduService,
   ) { }
 
+  homeShow = {
+    number: null
+  }
+
   ngOnInit() {
     this.soduService.pauseShowTime()
+  }
+
+  setHomeShowNum(num: number) {
+    this.homeShow.number = num
+  }
+  clearHomeShowNum() {
+    this.homeShow.number = null
   }
 }

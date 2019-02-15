@@ -1,36 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { SoduService } from '../service/sodu/sodu.service';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-play',
   templateUrl: './play.page.html',
   styleUrls: ['./play.page.scss'],
 })
-export class PlayPage implements OnInit, OnDestroy {
+export class PlayPage implements OnInit {
 
   constructor(
     private storage: Storage,
     private soduService: SoduService,
+    private zone: NgZone,
   ) {
-    this.soduService.InitSodu()
-    const checksoduReadyInterval = setInterval(() => {
-      console.log('checksoduReadyInterval')
-      if (this.soduService.soduShow.soduReady) {
-        this.soduData = this.soduService.SODUDATA
-        this.soduShow = this.soduService.soduShow
-        clearInterval(checksoduReadyInterval)
-        this.startShowTime()
-      }
-    }, 100)
+    zone.run(() => {
+      console.log(Math.random())
+    })
   }
 
   numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   soduData = {
     soduArr: [],
-    backupSoduArr: [],
     blankArr: [],
-    soduEditArr: [],
+    blankEditBoard: [],
+    soduPlayArr: [],
     errorArr: [],
     time: 0,
     nowMode: 'Starter',
@@ -42,16 +37,35 @@ export class PlayPage implements OnInit, OnDestroy {
   }
   soduShow = {
     soduReady: false,
-    editNumber: null,
+    playNumber: null,
     tipNumberIndexes: [],
-    showTime: '00:00'
+    showTime: '00:00',
+    pauseTime: false
   }
   showTimeInterval: any
+  checksoduReadyInterval: any
 
-  ngOnDestroy(): void {
-    this.pauseShowTime()
-  }
   ngOnInit() {
+    this.soduService.InitSodu()
+    let intCount = 0
+    this.checksoduReadyInterval = setInterval(() => {
+      intCount++
+      console.log('checksoduReadyInterval intCount:' + intCount)
+      this.initGame(intCount)
+    }, 250)
+  }
+
+  initGame(count: number) {
+    console.log(this.soduService.showTimeInterval)
+    if (this.soduService.SoduShow.soduReady) {
+      this.soduData = this.soduService.SoduData
+      this.soduShow = this.soduService.SoduShow
+      clearInterval(this.checksoduReadyInterval)
+    } else if (count >= 600) {
+      clearInterval(this.checksoduReadyInterval)
+      console.log('There is some error!')
+    }
+    this.startShowTime()
   }
 
   newGame(): void {
@@ -62,16 +76,32 @@ export class PlayPage implements OnInit, OnDestroy {
     return this.soduService.seeIfBlank(index)
   }
 
-  setShowEditNumber(index: number): void {
-    this.soduService.setShowEditNumber(index)
+  seeIfBlankBoard(index: number) {
+    return this.soduService.seeIfBlankBoard(index)
   }
 
-  clearEditNumber(): void {
-    this.soduService.clearEditNumber()
+  setThisEditBoardStatus() {
+    return this.soduService.setThisEditBoardStatus()
   }
 
-  clickEditNumber(num: number): void {
-    this.soduService.clickEditNumber(num)
+  seeIfBlankBoardNumber(index: number, num: number) {
+    return this.soduService.seeIfBlankBoardNumber(index, num)
+  }
+
+  seeIfShowSmallBtn() {
+    return this.soduService.seeIfShowSmallBtn()
+  }
+
+  setShowPlayNumber(index: number): void {
+    this.soduService.setShowPlayNumber(index)
+  }
+
+  clearPlayNumber(): void {
+    this.soduService.clearPlayNumber()
+  }
+
+  clickPlayNumber(num: number): void {
+    this.soduService.clickPlayNumber(num)
   }
 
   checkSomeNumbers(num: number) {

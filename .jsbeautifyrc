@@ -3,7 +3,8 @@
   "indent_size": 2,
   "indent_char": " ",
   "jslint_happy": true,
-  "unformatted": ["span"],
+  "unformatted": ["span", "i"],
+  "wrap_attributes": "preserve-aligned",
   "css": {
     "indent_size": 2
   }
