@@ -16,6 +16,16 @@ ion-content {
   padding: 1vh 2vw 0.2vh;
   height: 34px;
   font-size: 12px;
+
+  .star-item {
+    margin-right: 2px;
+    color: var(--ion-color-services);
+    transition: all .5s;
+
+    &.hide {
+      display: none;
+    }
+  }
 }
 
 .number-content {
@@ -53,7 +63,7 @@ ion-content {
       }
 
       &.num-tip-bg {
-        background: rgba(0, 0, 0, .03);
+        background: rgba(0, 0, 0, .07);
       }
 
       .num {
@@ -92,12 +102,11 @@ ion-content {
         .small-con {
           width: 100%;
           height: 100%;
-          background: rgba(0, 0, 0, .03);
+          // background: rgba(0, 0, 0, .05);
         }
 
         .small-number {
-          opacity: 0;
-          color: #666666;
+          color: #888;
           float: left;
           width: calc(100% / 3);
           height: calc(100% / 3);
@@ -106,9 +115,21 @@ ion-content {
           justify-content: center;
           align-items: center;
 
-          &.active {
-            opacity: 1;
+          &.small-r-l {
+            border-right: 1px dotted #ddd;
           }
+
+          &.small-b-l {
+            border-bottom: 1px dotted #ddd;
+          }
+
+          span {
+            opacity: 0;
+            &.active {
+              opacity: 1;
+            }
+          }
+
         }
       }
     }
@@ -196,6 +217,14 @@ ion-content {
   width: 96vw;
   margin-left: 2vw;
   overflow: hidden;
+}
+
+.pause-mask {
+  position: absolute;
+  top: calc(34px);
+  width: 100%;
+  height: calc(100% - 34px - 2px);
+  background: #fff;
 }
 
 @keyframes quiver {

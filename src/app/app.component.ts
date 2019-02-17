@@ -4,6 +4,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { SoduService } from './service/sodu/sodu.service';
 
 @Component({
   selector: 'app-root',
@@ -11,23 +12,10 @@ import { Storage } from '@ionic/storage';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-  appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'grid'
-    },
-    {
-      title: 'Play',
-      url: '/play',
-      icon: 'logo-game-controller-b'
-    },
-    {
-      title: 'About',
-      url: '/about',
-      icon: 'information-circle'
-    }
-  ];
+
+  soduPlay = {
+    playId: 1,
+  }
 
   constructor(
     private events: Events,
@@ -37,12 +25,16 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
+    private soduService: SoduService,
   ) {
-    this.initializeApp();
+    this.initializeApp()
+    this.soduPlay = this.soduService.SoduPlay
+    this.soduPlay.playId = Math.floor(Math.random() * 1000)
+    console.log(this.soduPlay.playId)
   }
 
   ngOnInit() {
-
+    // this.playId = this.getDate()
   }
 
   initializeApp() {
@@ -57,4 +49,5 @@ export class AppComponent implements OnInit {
     this.storage.set('ion_did_tutorial', false);
     this.router.navigateByUrl('/tutorial');
   }
+
 }

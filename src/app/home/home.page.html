@@ -9,23 +9,16 @@
 
 <ion-content padding>
   <h2>Home is here!</h2>
-  <h4>Home show number is {{homeShow.number}}</h4>
   <div>
-
-    <ion-button class="tool-btn" (click)="setHomeShowNum(1)">设置为1</ion-button>
-    <ion-button class="tool-btn" (click)="setHomeShowNum(2)">设置为2</ion-button>
-    <ion-button class="tool-btn" (click)="clearHomeShowNum()">设置为null</ion-button>
+    <ion-button routerLink="/play/{{soduPlay.playId}}">
+      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+      <ion-label>Play</ion-label>
+    </ion-button>
   </div>
   <div>
-
-    <ion-button class="tool-btn" (click)="clearHomeShowNum()" [disabled]="homeShow.number == null">
-      <ion-icon src="assets/svg/clear.svg"></ion-icon>
-    </ion-button>
-    <ion-button class="tool-btn" (click)="clearHomeShowNum()" [disabled]="homeShow.number == null">
-      <ion-icon src="assets/svg/small.svg"></ion-icon>
-    </ion-button>
-    <ion-button class="tool-btn" (click)="clearHomeShowNum()" [disabled]="homeShow.number == null">
-      <ion-icon src="assets/svg/small.svg"></ion-icon>
+    <ion-button routerLink="/play/{{soduPlay.playId}}" (click)="clearData()">
+      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-label>Clear sodu data</ion-label>
     </ion-button>
   </div>
 </ion-content>

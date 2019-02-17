@@ -12,7 +12,7 @@ export class AboutPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.soduService.pauseShowTime()
+    // this.soduService.pauseShowTime()
   }
 
 }

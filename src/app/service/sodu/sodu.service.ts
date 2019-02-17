@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { CelShowTime } from '../../../utils/get-time';
-import { Storage, IonicStorageModule } from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 import { ActionSheetController } from '@ionic/angular';
-import { Observable, of } from 'rxjs';
-import { shiftInitState } from '@angular/core/src/view';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +14,9 @@ export class SoduService {
     private actionSheetController: ActionSheetController,
     private storage: Storage,
   ) { }
-
   numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  starArr: Array<number> = [1, 2, 3, 4, 5]
+  STAR_MAX = this.starArr.length
   SoduData = {
     soduArr: [],
     blankArr: [],
@@ -25,6 +24,7 @@ export class SoduService {
     soduPlayArr: [],
     errorArr: [],
     time: 0,
+    star: this.STAR_MAX,
     nowMode: 'Starter',
     mode: {
       Starter: 1,
@@ -37,29 +37,29 @@ export class SoduService {
     playNumber: null,
     tipNumberIndexes: [],
     showTime: '00:00',
-    pauseTime: false
+    pauseTime: false,
+  }
+  SoduPlay = {
+    playId: 1,
   }
   showTimeInterval: any
 
   async InitSodu() {
     this.storage.get('sd-data').then((data) => {
-      console.log(data)
-      console.log(typeof data)
       if (data) {
         this.SoduData = data
         this.SoduShow.soduReady = true
         this.startShowTime()
       } else {
-        console.log('new sodu')
         this.createNewGame(this.SoduData.nowMode)
-        console.log(this.SoduData)
+        console.log('New sodu: ' + this.SoduData)
       }
     })
     this.saveData()
   }
 
   startShowTime() {
-    console.log('Start Show Time')
+    console.log('Start Show Time: ' + this.SoduShow.showTime)
     clearInterval(this.showTimeInterval)
     this.SoduShow.showTime = CelShowTime(this.SoduData.time)
     this.showTimeInterval = setInterval(() => {
@@ -70,7 +70,7 @@ export class SoduService {
     }, 1000)
   }
   pauseShowTime() {
-    console.log('Pause Show Time')
+    console.log('Pause Show Time: ' + this.SoduShow.showTime)
     this.SoduShow.pauseTime = true
     clearInterval(this.showTimeInterval)
   }
@@ -82,7 +82,6 @@ export class SoduService {
       this.creatThird(2, 8, this.SoduData.soduArr)
       this.creatThird(5, 5, this.SoduData.soduArr)
       this.creatThird(8, 2, this.SoduData.soduArr)
-      // console.log(this.SoduData.soduArr)
       for (let i = 1; i <= 9; i++) {
         for (let j = 1; j <= 9; j++) {
           if (this.SoduData.soduArr[i * 10 + j]) {
@@ -187,7 +186,12 @@ export class SoduService {
       thisEditBoard[num] = !thisEditBoard[num]
     } else {
       this.SoduData.soduPlayArr[this.SoduShow.playNumber] = num
+      const errorLengthBefore = this.SoduData.errorArr.length
       this.checkErrors()
+      const errorLengthAfter = this.SoduData.errorArr.length
+      if (errorLengthAfter > errorLengthBefore) {
+        if (this.SoduData.star > 0) { this.SoduData.star-- }
+      }
       this.checkIfNumbersFull()
     }
     this.saveData()
@@ -434,7 +438,9 @@ export class SoduService {
 
   // 存档
   saveData(): void {
-    this.storage.set('sd-data', this.SoduData)
+    if (this.SoduData.soduPlayArr.length > 98) {
+      this.storage.set('sd-data', this.SoduData)
+    }
   }
 
   createNewGame(hardMode: string) {
@@ -442,6 +448,9 @@ export class SoduService {
     this.pauseShowTime()
     this.SoduData.time = 0
     this.SoduData.errorArr = []
+    this.SoduData.star = this.STAR_MAX
+    this.SoduShow.playNumber = null
+    this.SoduShow.tipNumberIndexes = []
     this.createBlankEditBoard()
     this.createSoduArr()
     this.createBlankArr(this.SoduData.mode[hardMode], hardMode)
@@ -457,25 +466,25 @@ export class SoduService {
       header: 'Hard Mode',
       buttons: [{
         text: 'Starter',
-        icon: 'grid',
+        // icon: 'grid',
         handler: () => {
           this.createNewGame('Starter')
         }
       }, {
         text: 'Normal',
-        icon: 'grid',
+        // icon: 'grid',
         handler: () => {
           this.createNewGame('Normal')
         }
       }, {
         text: 'Master',
-        icon: 'grid',
+        // icon: 'grid',
         handler: () => {
           this.createNewGame('Master')
         }
       }, {
         text: 'Cancel',
-        icon: 'close',
+        // icon: 'close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
@@ -492,5 +501,10 @@ export class SoduService {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  // for test used
+  clearData() {
+    this.storage.remove('sd-data')
   }
 }

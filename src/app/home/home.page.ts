@@ -7,22 +7,20 @@ import { SoduService } from '../service/sodu/sodu.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  soduPlay = {
+    playId: 123,
+  }
   constructor(
     private soduService: SoduService,
-  ) { }
-
-  homeShow = {
-    number: null
+  ) {
+    this.soduPlay.playId = Math.floor(Math.random() * 1000)
+    this.soduPlay = this.soduService.SoduPlay
   }
 
-  ngOnInit() {
-    this.soduService.pauseShowTime()
-  }
+  ngOnInit() { }
 
-  setHomeShowNum(num: number) {
-    this.homeShow.number = num
-  }
-  clearHomeShowNum() {
-    this.homeShow.number = null
+  // for test used
+  clearData() {
+    this.soduService.clearData()
   }
 }

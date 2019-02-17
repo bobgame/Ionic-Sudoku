@@ -20,7 +20,25 @@
                 {{p.title}}
               </ion-label>
             </ion-item>
+          </ion-menu-toggle>
 
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/home">
+              <ion-icon slot="start" name="home"></ion-icon>
+              <ion-label>Home</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/play/{{soduPlay.playId}}">
+              <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+              <ion-label>Play</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/about">
+              <ion-icon slot="start" name="information-circle"></ion-icon>
+              <ion-label>About</ion-label>
+            </ion-item>
           </ion-menu-toggle>
         </ion-list>
 

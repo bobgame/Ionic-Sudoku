@@ -4,16 +4,33 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Play</ion-title>
+    <ion-buttons slot="end">
+      <ion-button text-center *ngIf="!playBtnStatus" (click)="clickPlayOrPauseBtn()">
+        <ion-icon name="pause"></ion-icon>
+      </ion-button>
+      <ion-button text-center *ngIf="playBtnStatus" (click)="clickPlayOrPauseBtn()">
+        <ion-icon name="play"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [ngClass]="{'show': soduShow.soduReady}">
   <div class="game-header">
     <ion-row>
-      <ion-col size="6" text-left>
-        {{soduData.nowMode}} {{soduData.mode[soduData.nowMode]}}
+      <ion-col size="4" text-left>
+        {{soduData.nowMode | uppercase}}
+        <!-- {{soduData.mode[soduData.nowMode]}} -->
       </ion-col>
-      <ion-col size="6" text-right>
+      <ion-col size="4" text-center>
+        <ion-icon class="star-item" src="assets/svg/star-full.svg"
+                  *ngFor="let star of starArr"
+                  [ngClass]="{'hide': star > soduData.star}"></ion-icon>
+        <ion-icon class="star-item" src="assets/svg/star-empty.svg"
+                  *ngFor="let star of starArr"
+                  [ngClass]="{'hide': star <= soduData.star}"></ion-icon>
+      </ion-col>
+      <ion-col size="4" text-right>
         {{soduShow.showTime}}
       </ion-col>
     </ion-row>
@@ -33,14 +50,15 @@
           <div class="num num-empty"
                *ngIf="!seeIfBlank(s * 10 + h)"
                [ngClass]="{'active': soduShow.playNumber == s * 10 + h, 'error': soduData.errorArr.indexOf(s * 10 + h) > -1}"
+               (press)="numEmptyPress(s * 10 + h)"
                (click)="setShowPlayNumber(s * 10 + h)">
             <div *ngIf="!seeIfBlankBoard(s * 10 + h)">
               {{soduData.soduPlayArr[s * 10 + h]}}
             </div>
             <div class="small-con" *ngIf="seeIfBlankBoard(s * 10 + h)">
               <div class="small-number" *ngFor="let n of numArr"
-                   [ngClass]="{'active': seeIfBlankBoardNumber(s * 10 + h, n)}">
-                {{n}}
+                   [ngClass]="{'small-r-l': n % 3 != 0, 'small-b-l': n <= 6}">
+                <span [ngClass]="{'active': seeIfBlankBoardNumber(s * 10 + h, n)}">{{n}}</span>
               </div>
             </div>
           </div>
@@ -76,5 +94,11 @@
       <ion-button (click)="newGame()">New Game</ion-button>
       <!-- <ion-card (press)="itemPressed($event)"></ion-card> -->
     </div>
+  </div>
+  <div class="pause-mask" *ngIf="playBtnStatus" text-center>
+    <ion-button text-center (click)="clickPlayOrPauseBtn()">
+        <ion-icon name="play"></ion-icon>
+        Continue
+      </ion-button>
   </div>
 </ion-content>

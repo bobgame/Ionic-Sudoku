@@ -1,26 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SoduService } from '../service/sodu/sodu.service';
-import { NgZone } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Router, NavigationEnd } from '@angular/router';
+import { SoduStar } from '../datas/data-types';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-play',
   templateUrl: './play.page.html',
   styleUrls: ['./play.page.scss'],
 })
-export class PlayPage implements OnInit {
-
-  constructor(
-    private storage: Storage,
-    private soduService: SoduService,
-    private zone: NgZone,
-  ) {
-    zone.run(() => {
-      console.log(Math.random())
-    })
-  }
+export class PlayPage implements OnInit, OnDestroy {
+  endSubscription: Subscription
 
   numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  starArr: Array<number> = []
   soduData = {
     soduArr: [],
     blankArr: [],
@@ -28,6 +23,7 @@ export class PlayPage implements OnInit {
     soduPlayArr: [],
     errorArr: [],
     time: 0,
+    star: 5,
     nowMode: 'Starter',
     mode: {
       Starter: 1,
@@ -40,32 +36,56 @@ export class PlayPage implements OnInit {
     playNumber: null,
     tipNumberIndexes: [],
     showTime: '00:00',
-    pauseTime: false
+    pauseTime: false,
   }
+  soduPlay = {
+    playId: 999,
+  }
+  soduStars: SoduStar[]
   showTimeInterval: any
   checksoduReadyInterval: any
+  playBtnStatus = false
+
+  constructor(
+    private soduService: SoduService,
+    private router: Router,
+    private storage: Storage,
+  ) {
+    this.starArr = this.soduService.starArr
+    this.soduPlay = this.soduService.SoduPlay
+    this.endSubscription = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(_ => {
+      console.log('End Subscription, Time: ' + this.soduShow.showTime)
+      this.soduPlay.playId = Math.floor(Math.random() * 1000)
+      this.pauseShowTime()
+    })
+  }
 
   ngOnInit() {
+    this.getStars()
+    this.initSodu()
+  }
+  ngOnDestroy() {
+    this.endSubscription.unsubscribe() // 不要忘记处理手动订阅
+  }
+
+  initSodu() {
     this.soduService.InitSodu()
     let intCount = 0
     this.checksoduReadyInterval = setInterval(() => {
       intCount++
       console.log('checksoduReadyInterval intCount:' + intCount)
-      this.initGame(intCount)
+      if (this.soduService.SoduShow.soduReady) {
+        this.soduData = this.soduService.SoduData
+        this.soduShow = this.soduService.SoduShow
+        clearInterval(this.checksoduReadyInterval)
+      } else if (intCount >= 600) {
+        clearInterval(this.checksoduReadyInterval)
+        console.log('There is some error!')
+      }
+      this.startShowTime()
     }, 250)
-  }
-
-  initGame(count: number) {
-    console.log(this.soduService.showTimeInterval)
-    if (this.soduService.SoduShow.soduReady) {
-      this.soduData = this.soduService.SoduData
-      this.soduShow = this.soduService.SoduShow
-      clearInterval(this.checksoduReadyInterval)
-    } else if (count >= 600) {
-      clearInterval(this.checksoduReadyInterval)
-      console.log('There is some error!')
-    }
-    this.startShowTime()
   }
 
   newGame(): void {
@@ -96,6 +116,11 @@ export class PlayPage implements OnInit {
     this.soduService.setShowPlayNumber(index)
   }
 
+  numEmptyPress(index: number): void {
+    this.setShowPlayNumber(index)
+    this.setThisEditBoardStatus()
+  }
+
   clearPlayNumber(): void {
     this.soduService.clearPlayNumber()
   }
@@ -106,6 +131,52 @@ export class PlayPage implements OnInit {
 
   checkSomeNumbers(num: number) {
     this.soduService.checkSomeNumbers(num)
+  }
+
+  clickPlayOrPauseBtn() {
+    if (this.playBtnStatus) {
+      this.startShowTime()
+    } else {
+      this.pauseShowTime()
+    }
+    this.playBtnStatus = !this.playBtnStatus
+  }
+
+  getStars() {
+    this.storage.get('stars').then((stars) => {
+      if (stars) {
+        this.soduStars = stars
+      } else {
+        this.soduStars = [
+          {
+            name: 'Starter',
+            starNum: 0
+          },
+          {
+            name: 'Normal',
+            starNum: 0
+          },
+          {
+            name: 'Master',
+            starNum: 0
+          }
+        ]
+      }
+      console.log('this.SoduStars[0]: ' + this.soduStars[0].starNum)
+      this.setStars()
+    })
+  }
+
+  setStars() {
+    this.soduStars[0].starNum++
+    this.storage.set('stars', this.soduStars)
+  }
+
+  testStar() {
+    if (this.soduStars) {
+      return this.soduStars[0].starNum
+    }
+    return 0
   }
 
   startShowTime() {
