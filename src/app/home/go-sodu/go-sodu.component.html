@@ -1,0 +1,24 @@
+<ion-content>
+  <div>
+    <ion-back-button defaultHref="home" text="Home"></ion-back-button>
+  </div>
+  <h2>Home is here!</h2>
+  <div>
+    <ion-button routerLink="/play/{{soduPlay.playId}}">
+      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+      <ion-label>Starter</ion-label>
+    </ion-button>
+  </div>
+  <div>
+    <ion-button routerLink="/play/{{soduPlay.playId}}">
+      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+      <ion-label>Normal</ion-label>
+    </ion-button>
+  </div>
+  <div>
+    <ion-button routerLink="/play/{{soduPlay.playId}}">
+      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+      <ion-label>Master</ion-label>
+    </ion-button>
+  </div>
+</ion-content>

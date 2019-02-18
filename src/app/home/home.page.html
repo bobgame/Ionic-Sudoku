@@ -6,19 +6,6 @@
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content padding>
-  <h2>Home is here!</h2>
-  <div>
-    <ion-button routerLink="/play/{{soduPlay.playId}}">
-      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-      <ion-label>Play</ion-label>
-    </ion-button>
-  </div>
-  <div>
-    <ion-button routerLink="/play/{{soduPlay.playId}}" (click)="clearData()">
-      <ion-icon slot="start" name="close"></ion-icon>
-      <ion-label>Clear sodu data</ion-label>
-    </ion-button>
-  </div>
+<ion-content>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-content>

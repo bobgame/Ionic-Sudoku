@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'play/:id', loadChildren: './play/play.module#PlayPageModule', runGuardsAndResolvers: 'paramsChange' },
   { path: 'about', loadChildren: './about/about.module#AboutPageModule' },
 
+
 ];
 
 @NgModule({

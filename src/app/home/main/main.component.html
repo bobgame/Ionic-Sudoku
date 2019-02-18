@@ -1,0 +1,15 @@
+<ion-content>
+  <h2>Home is here!</h2>
+  <div>
+    <ion-button routerLink="/home/go-sodu">
+      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+      <ion-label>Sodu</ion-label>
+    </ion-button>
+  </div>
+  <div>
+    <ion-button routerLink="/play/{{soduPlay.playId}}" (click)="clearData()">
+      <ion-icon slot="start" name="close"></ion-icon>
+      <ion-label>Clear sodu data</ion-label>
+    </ion-button>
+  </div>
+</ion-content>
