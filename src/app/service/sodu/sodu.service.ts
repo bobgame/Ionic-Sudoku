@@ -14,8 +14,10 @@ export class SoduService {
     private actionSheetController: ActionSheetController,
     private storage: Storage,
   ) { }
-  numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  starArr: Array<number> = [1, 2, 3, 4, 5]
+  numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  starArr = [1, 2, 3, 4, 5]
+  soduName = 'Simple Soduku'
+  hardModeName = ['Starter', 'Normal', 'Master']
   STAR_MAX = this.starArr.length
   SoduData = {
     soduArr: [],
@@ -446,6 +448,7 @@ export class SoduService {
   createNewGame(hardMode: string) {
     console.log(hardMode + ' game start!');
     this.pauseShowTime()
+    this.SoduData.nowMode = hardMode
     this.SoduData.time = 0
     this.SoduData.errorArr = []
     this.SoduData.star = this.STAR_MAX
@@ -465,22 +468,22 @@ export class SoduService {
     const actionSheet = await this.actionSheetController.create({
       header: 'Hard Mode',
       buttons: [{
-        text: 'Starter',
+        text: this.hardModeName[0],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame('Starter')
+          this.createNewGame(this.hardModeName[0])
         }
       }, {
-        text: 'Normal',
+        text: this.hardModeName[1],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame('Normal')
+          this.createNewGame(this.hardModeName[1])
         }
       }, {
-        text: 'Master',
+        text: this.hardModeName[2],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame('Master')
+          this.createNewGame(this.hardModeName[2])
         }
       }, {
         text: 'Cancel',

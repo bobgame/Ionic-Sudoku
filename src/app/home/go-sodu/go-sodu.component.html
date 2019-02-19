@@ -2,23 +2,17 @@
   <div>
     <ion-back-button defaultHref="home" text="Home"></ion-back-button>
   </div>
-  <h2>Home is here!</h2>
-  <div>
-    <ion-button routerLink="/play/{{soduPlay.playId}}">
+  <h2 text-center>{{gameName}}</h2>
+  <div text-center *ngIf="continueButton">
+    <ion-button (click)="continueSodu()">
       <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-      <ion-label>Starter</ion-label>
+      <ion-label>Continue</ion-label>
     </ion-button>
   </div>
-  <div>
-    <ion-button routerLink="/play/{{soduPlay.playId}}">
+  <div *ngFor="let hard of hardModeName" text-center>
+    <ion-button (click)="goToSodu(hard)">
       <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-      <ion-label>Normal</ion-label>
-    </ion-button>
-  </div>
-  <div>
-    <ion-button routerLink="/play/{{soduPlay.playId}}">
-      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-      <ion-label>Master</ion-label>
+      <ion-label>{{hard}}</ion-label>
     </ion-button>
   </div>
 </ion-content>

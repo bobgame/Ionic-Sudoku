@@ -125,6 +125,7 @@ ion-content {
 
           span {
             opacity: 0;
+
             &.active {
               opacity: 1;
             }
@@ -225,6 +226,14 @@ ion-content {
   width: 100%;
   height: calc(100% - 34px - 2px);
   background: #fff;
+}
+
+@media (min-width: 500px) {
+  .number-content {
+    width: 80vw;
+    height: 80vw;
+    margin-left: 10vw;
+  }
 }
 
 @keyframes quiver {
