@@ -1,4 +1,4 @@
 export class SoduStar {
-  name: string | 'Starter'
+  mode: number | 0
   starNum: number | 0
 }

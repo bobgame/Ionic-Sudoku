@@ -10,34 +10,22 @@
       <ion-content>
 
         <ion-list>
-          <!-- <ion-list-header>
-            Navigate
-          </ion-list-header> -->
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item [routerLink]="p.url">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>
-                {{p.title}}
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
           <ion-menu-toggle auto-hide="false">
             <ion-item routerLink="/home">
               <ion-icon slot="start" name="home"></ion-icon>
-              <ion-label>Home</ion-label>
+              <ion-label>{{LanData?.common.home}}</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">
             <ion-item routerLink="/play/{{soduPlay.playId}}">
               <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-              <ion-label>Play</ion-label>
+              <ion-label>{{LanData?.common.soduku}}</ion-label>
             </ion-item>
           </ion-menu-toggle>
           <ion-menu-toggle auto-hide="false">
             <ion-item routerLink="/about">
               <ion-icon slot="start" name="information-circle"></ion-icon>
-              <ion-label>About</ion-label>
+              <ion-label>{{LanData?.common.about}}</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

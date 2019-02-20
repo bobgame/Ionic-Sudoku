@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SoduService } from '../../service/sodu/sodu.service';
+import { LanService } from '../../service/lan/lan.service';
 
 @Component({
   selector: 'app-main',
@@ -11,13 +12,22 @@ export class MainComponent implements OnInit {
   soduPlay = {
     playId: 123,
   }
-  gameName: string
+  LanData
   constructor(
     private soduService: SoduService,
+    private lanService: LanService,
   ) {
     this.soduPlay.playId = Math.floor(Math.random() * 1000)
-    this.gameName = this.soduService.soduName
     this.soduPlay = this.soduService.SoduPlay
+
+    lanService.getLanguage().then(() => {
+      if (this.lanService.LanData) {
+        this.LanData = this.lanService.LanData
+      } else {
+        this.lanService.getLanJson()
+          .subscribe((data) => { this.LanData = data })
+      }
+    })
   }
 
   ngOnInit() { }

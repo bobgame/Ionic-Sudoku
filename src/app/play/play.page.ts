@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
 import { SoduStar } from '../datas/data-types';
 import { Storage } from '@ionic/storage';
+import { LanService } from '../service/lan/lan.service';
 
 @Component({
   selector: 'app-play',
@@ -24,7 +25,7 @@ export class PlayPage implements OnInit, OnDestroy {
     errorArr: [],
     time: 0,
     star: 5,
-    nowMode: 'Starter',
+    nowMode: 0,
     mode: {
       Starter: 1,
       Normal: 1,
@@ -45,11 +46,14 @@ export class PlayPage implements OnInit, OnDestroy {
   showTimeInterval: any
   checksoduReadyInterval: any
   playBtnStatus = false
+  LanData
+  hardModeName
 
   constructor(
     private soduService: SoduService,
     private router: Router,
     private storage: Storage,
+    private lanService: LanService,
   ) {
     this.starArr = this.soduService.starArr
     this.soduPlay = this.soduService.SoduPlay
@@ -71,25 +75,33 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   initSodu() {
-    this.soduService.InitSodu()
-    let intCount = 0
-    this.checksoduReadyInterval = setInterval(() => {
-      intCount++
-      console.log('checksoduReadyInterval intCount:' + intCount)
-      if (this.soduService.SoduShow.soduReady) {
-        this.soduData = this.soduService.SoduData
-        this.soduShow = this.soduService.SoduShow
-        clearInterval(this.checksoduReadyInterval)
-      } else if (intCount >= 600) {
-        clearInterval(this.checksoduReadyInterval)
-        console.log('There is some error!')
-      }
-      this.startShowTime()
-    }, 250)
+    this.soduService.InitSodu().then(() => {
+      this.soduData = this.soduService.SoduData
+      this.soduShow = this.soduService.SoduShow
+      this.lanService.getLanguage().then(() => {
+        if (this.lanService.LanData) {
+          this.LanData = this.lanService.LanData
+          this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
+        } else {
+          this.lanService.getLanJson()
+            .subscribe((data) => {
+              this.LanData = data
+              this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
+            })
+        }
+      })
+    })
   }
 
   newGame(): void {
     this.soduService.newGame()
+  }
+
+  getModeName() {
+    if (this.hardModeName && this.soduData) {
+      return this.hardModeName[this.soduData.nowMode]
+    }
+    return ''
   }
 
   seeIfBlank(index: number) {
@@ -143,33 +155,13 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   getStars() {
-    this.storage.get('stars').then((stars) => {
-      if (stars) {
-        this.soduStars = stars
-      } else {
-        this.soduStars = [
-          {
-            name: 'Starter',
-            starNum: 0
-          },
-          {
-            name: 'Normal',
-            starNum: 0
-          },
-          {
-            name: 'Master',
-            starNum: 0
-          }
-        ]
-      }
-      console.log('this.SoduStars[0]: ' + this.soduStars[0].starNum)
-      this.setStars()
+    this.soduService.getStars().then(() => {
+      this.soduStars = this.soduService.SoduStars
     })
   }
 
   setStars() {
-    this.soduStars[0].starNum++
-    this.storage.set('stars', this.soduStars)
+    this.soduService.setStars()
   }
 
   testStar() {

@@ -1,0 +1,20 @@
+{
+  "common": {
+    "home": "首页",
+    "soduku": "数独",
+    "about": "关于",
+    "menu": "菜单",
+    "back": "返回",
+    "starter": "新手",
+    "normal": "普通",
+    "master": "大师",
+    "continue": "继续"
+  },
+  "home": {
+    "title": "清新数独",
+    "titleSodu": "首页-数独"
+  },
+  "sodu": {
+    "star": "星星"
+  }
+}

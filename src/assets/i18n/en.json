@@ -1,0 +1,20 @@
+{
+  "common": {
+    "home": "Home",
+    "soduku": "Soduku",
+    "about": "About",
+    "menu": "Menu",
+    "back": "Back",
+    "starter": "Starter",
+    "normal": "Normal",
+    "master": "Master",
+    "continue": "Continue"
+  },
+  "home": {
+    "title": "Fresh Soduku",
+    "titleSodu": "Home-Soduku"
+  },
+  "sodu": {
+    "star": "star"
+  }
+}

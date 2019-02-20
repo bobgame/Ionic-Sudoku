@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { SoduService } from './service/sodu/sodu.service';
+import { LanService } from './service/lan/lan.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   soduPlay = {
     playId: 1,
   }
+  LanData: any
 
   constructor(
     private events: Events,
@@ -26,11 +28,18 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private storage: Storage,
     private soduService: SoduService,
+    private lanService: LanService,
   ) {
     this.initializeApp()
     this.soduPlay = this.soduService.SoduPlay
     this.soduPlay.playId = Math.floor(Math.random() * 1000)
-    console.log(this.soduPlay.playId)
+    console.log('app component')
+    lanService.getLanguage().then(() => {
+      lanService.getLanJson()
+        .subscribe((data) => this.LanData = data);
+      lanService.getLanData()
+    })
+
   }
 
   ngOnInit() {

@@ -1,9 +1,17 @@
-<ion-content>
-  <h2 text-center>gameName</h2>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{LanData?.common.home}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollY]="false">
+  <h2 text-center>{{LanData?.home.title}}</h2>
   <div text-center>
     <ion-button routerLink="/home/go-sodu">
       <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
-      <ion-label>Soduku</ion-label>
+      <ion-label>{{LanData?.common.soduku}}</ion-label>
     </ion-button>
   </div>
   <div text-center>

@@ -26,7 +26,7 @@ import { SoduService } from './service/sodu/sodu.service';
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     StatusBar,

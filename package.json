@@ -26,6 +26,8 @@
     "@ionic/angular": "^4.0.0",
     "@ionic/pro": "2.0.4",
     "@ionic/storage": "^2.2.0",
+    "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/http-loader": "^4.0.0",
     "cordova-sqlite-storage": "3.0.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",

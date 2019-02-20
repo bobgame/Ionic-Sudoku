@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { CelShowTime } from '../../../utils/get-time';
 import { Storage } from '@ionic/storage';
 import { ActionSheetController } from '@ionic/angular';
+import { SoduStar } from 'src/app/datas/data-types';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class SoduService {
     errorArr: [],
     time: 0,
     star: this.STAR_MAX,
-    nowMode: 'Starter',
+    nowMode: 0,
     mode: {
       Starter: 1,
       Normal: 1,
@@ -44,10 +45,11 @@ export class SoduService {
   SoduPlay = {
     playId: 1,
   }
+  SoduStars: SoduStar[]
   showTimeInterval: any
 
   async InitSodu() {
-    this.storage.get('sd-data').then((data) => {
+    return this.storage.get('sd-data').then((data) => {
       if (data) {
         this.SoduData = data
         this.SoduShow.soduReady = true
@@ -56,8 +58,8 @@ export class SoduService {
         this.createNewGame(this.SoduData.nowMode)
         console.log('New sodu: ' + this.SoduData)
       }
+      this.saveData()
     })
-    this.saveData()
   }
 
   startShowTime() {
@@ -119,10 +121,9 @@ export class SoduService {
     this.chooseHardModePopup()
   }
 
-  createBlankArr(level: number, hardMode: string) {
+  createBlankArr(level: number, hardMode: number) {
     // 生成指定数量的空白格子的坐标。
-    const nowMode = { Starter: 1, Normal: 2, Master: 3 }[hardMode]
-    let num = Math.floor(level / 30 * 10 + (nowMode - 1) * 15 + 7)
+    let num = Math.floor(level / 30 * 10 + hardMode * 15 + 7)
     num = num < 65 ? num : 65
     const arr = []
     let item: number
@@ -445,7 +446,7 @@ export class SoduService {
     }
   }
 
-  createNewGame(hardMode: string) {
+  createNewGame(hardMode: number) {
     console.log(hardMode + ' game start!');
     this.pauseShowTime()
     this.SoduData.nowMode = hardMode
@@ -456,11 +457,41 @@ export class SoduService {
     this.SoduShow.tipNumberIndexes = []
     this.createBlankEditBoard()
     this.createSoduArr()
-    this.createBlankArr(this.SoduData.mode[hardMode], hardMode)
+    this.createBlankArr(this.SoduData.mode[this.hardModeName[hardMode]], hardMode)
     this.createSoduPlayArr()
     this.saveData()
     this.startShowTime()
     console.log(this.SoduData)
+  }
+
+  // 获取星星star
+  async getStars() {
+    return this.storage.get('sd-stars').then((stars) => {
+      if (stars) {
+        this.SoduStars = stars
+      } else {
+        this.SoduStars = [
+          {
+            mode: 0,
+            starNum: 0
+          },
+          {
+            mode: 0,
+            starNum: 0
+          },
+          {
+            mode: 0,
+            starNum: 0
+          }
+        ]
+      }
+      console.log('this.SoduStars[0]: ' + this.SoduStars[0].starNum)
+      this.setStars()
+    })
+  }
+
+  setStars() {
+    this.storage.set('sd-stars', this.SoduStars)
   }
 
   // 弹窗类
@@ -471,19 +502,19 @@ export class SoduService {
         text: this.hardModeName[0],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame(this.hardModeName[0])
+          this.createNewGame(0)
         }
       }, {
         text: this.hardModeName[1],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame(this.hardModeName[1])
+          this.createNewGame(1)
         }
       }, {
         text: this.hardModeName[2],
         // icon: 'grid',
         handler: () => {
-          this.createNewGame(this.hardModeName[2])
+          this.createNewGame(2)
         }
       }, {
         text: 'Cancel',
