@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SoduService } from '../../service/sodu/sodu.service';
-import { LanService } from '../../service/lan/lan.service';
+import { SoduService } from '../../../service/sodu/sodu.service';
+import { LanService } from '../../../service/lan/lan.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +17,7 @@ export class MainComponent implements OnInit {
   constructor(
     private soduService: SoduService,
     private lanService: LanService,
+    private events: Events,
   ) {
     this.soduPlay.playId = Math.floor(Math.random() * 1000)
     this.soduPlay = this.soduService.SoduPlay
@@ -27,6 +29,10 @@ export class MainComponent implements OnInit {
         this.lanService.getLanJson()
           .subscribe((data) => { this.LanData = data })
       }
+    })
+
+    events.subscribe('lan:data', (data) => {
+      this.LanData = data
     })
   }
 

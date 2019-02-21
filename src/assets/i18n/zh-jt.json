@@ -8,7 +8,8 @@
     "starter": "新手",
     "normal": "普通",
     "master": "大师",
-    "continue": "继续"
+    "continue": "继续",
+    "settings": "设置"
   },
   "home": {
     "title": "清新数独",
@@ -16,5 +17,8 @@
   },
   "sodu": {
     "star": "星星"
+  },
+  "setting": {
+    "changeLanguage": "切换语言"
   }
 }

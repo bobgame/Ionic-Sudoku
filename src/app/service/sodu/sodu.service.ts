@@ -539,6 +539,8 @@ export class SoduService {
 
   // for test used
   clearData() {
+    this.storage.remove('sd-setting')
     this.storage.remove('sd-data')
+    this.storage.remove('sd-stars')
   }
 }

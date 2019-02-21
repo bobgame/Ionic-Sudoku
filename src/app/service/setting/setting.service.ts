@@ -16,8 +16,8 @@ export class SettingService {
     // 读取成就等 load game datas
     return this.storage.get('sd-setting').then((setting) => {
       const settingDefault = {
+        Lang: '',
         sodu: {
-          LangNum: 0
         }
       }
       if (setting) {

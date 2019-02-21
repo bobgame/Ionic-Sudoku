@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SoduService } from '../service/sodu/sodu.service';
+import { SoduService } from '../../service/sodu/sodu.service';
 
 @Component({
   selector: 'app-about',

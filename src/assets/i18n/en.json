@@ -8,7 +8,8 @@
     "starter": "Starter",
     "normal": "Normal",
     "master": "Master",
-    "continue": "Continue"
+    "continue": "Continue",
+    "settings": "Settings"
   },
   "home": {
     "title": "Fresh Soduku",
@@ -16,5 +17,8 @@
   },
   "sodu": {
     "star": "star"
+  },
+  "setting": {
+    "changeLanguage": "Change Language"
   }
 }

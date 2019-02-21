@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SoduService } from '../service/sodu/sodu.service';
+import { SoduService } from '../../service/sodu/sodu.service';
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
-import { SoduStar } from '../datas/data-types';
+import { SoduStar } from '../../datas/data-types';
 import { Storage } from '@ionic/storage';
-import { LanService } from '../service/lan/lan.service';
+import { LanService } from '../../service/lan/lan.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-play',
@@ -54,6 +55,7 @@ export class PlayPage implements OnInit, OnDestroy {
     private router: Router,
     private storage: Storage,
     private lanService: LanService,
+    private events: Events,
   ) {
     this.starArr = this.soduService.starArr
     this.soduPlay = this.soduService.SoduPlay
@@ -63,6 +65,9 @@ export class PlayPage implements OnInit, OnDestroy {
       console.log('End Subscription, Time: ' + this.soduShow.showTime)
       this.soduPlay.playId = Math.floor(Math.random() * 1000)
       this.pauseShowTime()
+    })
+    events.subscribe('lan:data', (data) => {
+      this.LanData = data
     })
   }
 
