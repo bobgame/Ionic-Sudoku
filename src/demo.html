@@ -3,25 +3,36 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Soduku</title>
-
-  <base href="./" />
+  <title>Fresh Soduku</title>
 
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="msapplication-tap-highlight" content="no" />
-
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
-
-  <meta name="theme-color" content="#387ef5">
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      background: #ccc;
+    }
+
+    .iframe {
+      width: 400px;
+      height: 640px;
+      margin: 2% auto 0;
+      display: block;
+      box-shadow: 1px 1px 20px 0px rgba(0, 0, 0, .3);
+    }
+  </style>
 </head>
 
 <body>
-  <app-root></app-root>
+  <iframe class="iframe" src="index.html" frameborder="0"></iframe>
 </body>
 
 </html>

@@ -236,6 +236,22 @@ ion-content {
   }
 }
 
+@media (min-width: 700px) {
+  .number-content {
+    width: 70vw;
+    height: 70vw;
+    margin-left: 15vw;
+  }
+}
+
+@media (min-width: 992px) {
+  .number-content {
+    width: 62vw;
+    height: 62vw;
+    margin-left: 5vw;
+  }
+}
+
 @keyframes quiver {
   3% {
     -webkit-transform: scale3d(1, 1, 1) rotate3d(0, 0, 1, -10deg);

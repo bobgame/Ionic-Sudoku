@@ -165,8 +165,9 @@
 // iOS only CSS variables can go here
 
 .ios {
+
   .num-btn,
-  .tool-btn{
+  .tool-btn {
     --background-activated: #eee;
   }
 }
@@ -207,3 +208,7 @@
 // is used by default for Windows.
 
 // @import "roboto";
+
+html {
+  background: #eeeeee;
+}
