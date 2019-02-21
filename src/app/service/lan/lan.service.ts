@@ -21,6 +21,9 @@ export class LanService {
     console.log(this.LanData)
     return this.http.get(`assets/i18n/${this.Lang}.json`)
   }
+  getLanJsonWithLang(Lang) {
+    return this.http.get(`assets/i18n/${Lang}.json`)
+  }
   async getLanData() {
     this.http.get(`assets/i18n/${this.Lang}.json`).subscribe((data) => {
       this.LanData = data
@@ -36,7 +39,7 @@ export class LanService {
   async getNewLanguage() {
     return this.settingService.loadSettingDatas().then((setting) => {
       this.settings = this.settingService.settings
-      this.Lang = this.settings.Lang
+      this.Lang = this.settingService.settings.Lang
       console.log('get language this.Lang: ' + this.Lang)
       if (this.Lang === '') {
         this.Language = navigator.language
@@ -55,10 +58,11 @@ export class LanService {
         }
       }
       // this.Lang = 'en'
-      this.settings.Lang = this.Lang
+      this.settingService.settings.Lang = this.Lang
       console.log('this.Lang: ' + this.Lang)
       console.log('this.settings.sodu: ' + this.settings.Lang)
       this.settingService.saveSettingDatas()
     })
   }
+
 }

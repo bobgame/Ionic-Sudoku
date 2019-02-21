@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
         .subscribe((data) => this.LanData = data);
       lanService.getLanData()
     })
-    events.subscribe('lan:data', (data) => {
+    events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
     })
   }

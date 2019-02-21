@@ -29,6 +29,7 @@ export class SettingService {
     })
   }
   saveSettingDatas() {
+    // alert(this.settings.Lang)
     this.storage.set('sd-setting', this.settings)
   }
 }

@@ -12,6 +12,7 @@ export class SettingPage implements OnInit {
 
   LanData: any
   lanValue: any
+  settings: any
   constructor(
     private lanService: LanService,
     private settingService: SettingService,
@@ -26,9 +27,11 @@ export class SettingPage implements OnInit {
   select() {
     console.log(this.lanValue);
     this.settingService.settings.Lang = this.lanValue
+    this.settings.Lang = this.lanValue
     this.settingService.saveSettingDatas()
-    this.getNewLanguage()
+    this.getNewLanguage(this.lanValue)
   }
+
 
   getLanguage() {
     this.lanService.getLanguage().then(() => {
@@ -39,20 +42,19 @@ export class SettingPage implements OnInit {
           .subscribe((data) => { this.LanData = data })
       }
       this.lanValue = this.settingService.settings.Lang
+      this.settings = this.settingService.settings
       console.log(this.LanData)
     })
   }
-  getNewLanguage() {
-    this.lanService.getNewLanguage().then(() => {
-      this.lanService.getLanJson()
-        .subscribe((data) => {
-          {
-            this.lanService.LanData = data
-            this.LanData = data
-            this.events.publish('lan:data', data);
-          }
-        })
-    })
+  getNewLanguage(Lang) {
+    this.lanService.getLanJsonWithLang(Lang)
+      .subscribe((data) => {
+        {
+          this.lanService.LanData = data
+          this.LanData = data
+          this.events.publish('lan:dataChange', data);
+        }
+      })
   }
 
 }

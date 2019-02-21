@@ -66,7 +66,7 @@ export class PlayPage implements OnInit, OnDestroy {
       this.soduPlay.playId = Math.floor(Math.random() * 1000)
       this.pauseShowTime()
     })
-    events.subscribe('lan:data', (data) => {
+    events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
     })
   }

@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
       }
     })
 
-    events.subscribe('lan:data', (data) => {
+    events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
     })
   }
