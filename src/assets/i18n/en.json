@@ -9,7 +9,9 @@
     "normal": "Normal",
     "master": "Master",
     "continue": "Continue",
-    "settings": "Settings"
+    "settings": "Settings",
+    "hardMode": "Hard mode",
+    "cancel": "Cancel"
   },
   "home": {
     "title": "Fresh Soduku",

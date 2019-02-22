@@ -5,10 +5,10 @@ import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  templateUrl: './main.page.html',
+  styleUrls: ['./main.page.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainPage implements OnInit {
 
   soduPlay = {
     playId: 123,
@@ -44,3 +44,4 @@ export class MainComponent implements OnInit {
   }
 
 }
+

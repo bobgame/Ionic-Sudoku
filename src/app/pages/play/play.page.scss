@@ -1,9 +1,10 @@
 :host {
   display: block;
   width: 100%;
+  background: #fff;
 }
 
-ion-content {
+ion-header {
   opacity: 0;
   transition: all 1.5s;
 
@@ -12,10 +13,49 @@ ion-content {
   }
 }
 
+.container {
+  opacity: 0;
+  transition: all 1.5s;
+  width: 100vw;
+  height: calc(100vh - 44px);
+  display: flex;
+  flex-flow: column;
+  background: #fff;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
+:host-context(.ios) {
+  .container {
+    height: calc(100vh - 44px);
+  }
+}
+
+:host-context(.md) {
+  .container {
+    height: calc(100vh - 56px);
+  }
+}
+
 .game-header {
-  padding: 1vh 2vw 0.2vh;
-  height: 34px;
+  padding: 0 2vw;
+  width: 100%;
+  max-height: 50px;
   font-size: 12px;
+  flex-grow: 1;
+
+  ion-row {
+    height: 100%;
+    align-items: center;
+  }
+
+  .star-con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .star-item {
     margin-right: 2px;
@@ -33,6 +73,8 @@ ion-content {
   width: 96vw;
   height: 96vw;
   margin-left: 2vw;
+  display: block;
+  flex-grow: 0;
 
   .number-s {
     width: 100%;
@@ -63,7 +105,7 @@ ion-content {
       }
 
       &.num-tip-bg {
-        background: rgba(0, 0, 0, .07);
+        background: rgba(0, 0, 0, .06);
       }
 
       .num {
@@ -140,48 +182,56 @@ ion-content {
 .game-bottom {
   display: flex;
   flex-wrap: wrap;
-  height: calc(100vh - 100vw - 48px - 34px);
+  width: 100%;
+  max-height: 72vw;
+  justify-content: center;
   align-items: center;
+  flex-grow: 20;
 }
 
 .number-btns {
-  width: 96vw;
-  margin-left: 2vw;
-  overflow: hidden;
-}
-
-.num-btn {
-  float: left;
-  width: calc(100% / 9);
-  height: 8vh;
-  display: flex;
-  align-items: center;
+  width: 70%;
+  height: 100%;
+  max-height: 66vw;
   justify-content: center;
-  font-size: 9vw;
-  margin: 0;
-  --background: none;
-  --box-shadow: none;
-  --border-radius: 0;
-  --color: #333;
-  --color-activated: #333;
-  --ripple-color: #ccc;
-  --padding-end: unset;
-  --padding-start: unset;
+  margin-left: 0;
+  overflow: hidden;
 
-  &[disabled] {
+  // border-right: 1px dotted #ccc;
+  .num-btn {
+    float: left;
+    width: calc(100% / 3);
+    height: calc(100% / 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9vw;
+    margin: 0;
     --background: none;
+    --box-shadow: none;
+    --border-radius: 0;
+    --color: #333;
+    --color-activated: #333;
+    --ripple-color: #ccc;
+    --padding-end: unset;
+    --padding-start: unset;
+
+    &[disabled] {
+      --background: none;
+    }
   }
 }
 
-
 .tools-btns {
-  width: 96vw;
-  margin-left: 2vw;
+  width: 30%;
+  height: 100%;
+  max-height: 66vw;
+  justify-content: center;
   overflow: hidden;
 
   .tool-btn {
-    width: calc(100% / 5);
-    height: 8vh;
+    width: calc(100%);
+    height: calc(100% / 3);
     font-size: 0;
     margin: 0;
     --background: none;
@@ -234,6 +284,10 @@ ion-content {
     height: 80vw;
     margin-left: 10vw;
   }
+
+  .game-bottom {
+    height: calc(100vh - 80vw - 48px - 34px);
+  }
 }
 
 @media (min-width: 700px) {
@@ -242,6 +296,10 @@ ion-content {
     height: 70vw;
     margin-left: 15vw;
   }
+
+  .game-bottom {
+    height: calc(100vh - 70vw - 48px - 34px);
+  }
 }
 
 @media (min-width: 992px) {
@@ -249,6 +307,10 @@ ion-content {
     width: 62vw;
     height: 62vw;
     margin-left: 5vw;
+  }
+
+  .game-bottom {
+    height: calc(100vh - 62vw - 48px - 34px);
   }
 }
 

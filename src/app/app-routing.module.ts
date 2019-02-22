@@ -9,9 +9,6 @@ const routes: Routes = [
   { path: 'loading', loadChildren: './pages/loading/loading.module#LoadingPageModule' },
   { path: 'setting', loadChildren: './pages/setting/setting.module#SettingPageModule' },
 
-
-
-
 ];
 
 @NgModule({

@@ -9,7 +9,9 @@
     "normal": "普通",
     "master": "大师",
     "continue": "继续",
-    "settings": "设置"
+    "settings": "设置",
+    "hardMode": "难度",
+    "cancel": "取消"
   },
   "home": {
     "title": "清新数独",

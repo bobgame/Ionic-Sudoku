@@ -68,6 +68,7 @@ export class PlayPage implements OnInit, OnDestroy {
     })
     events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
+      this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
     })
   }
 
@@ -99,7 +100,7 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   newGame(): void {
-    this.soduService.newGame()
+    this.soduService.newGame(this.LanData.common)
   }
 
   getModeName() {

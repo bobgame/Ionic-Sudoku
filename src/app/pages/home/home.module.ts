@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { MainComponent } from './main/main.component';
-import { GoSoduComponent } from './go-sodu/go-sodu.component';
 
 @NgModule({
   imports: [
@@ -18,12 +16,13 @@ import { GoSoduComponent } from './go-sodu/go-sodu.component';
         path: '',
         component: HomePage,
         children: [
-          { path: '', component: MainComponent },
-          { path: 'go-sodu', component: GoSoduComponent },
+          { path: '', loadChildren: './main/main.module#MainPageModule' },
+          { path: 'main', loadChildren: './main/main.module#MainPageModule' },
+          { path: 'go-sodu', loadChildren: './go-sodu/go-sodu.module#GoSoduPageModule' },
         ]
       },
     ])
   ],
-  declarations: [HomePage, MainComponent, GoSoduComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule { }

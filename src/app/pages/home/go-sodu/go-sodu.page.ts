@@ -7,10 +7,10 @@ import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-go-sodu',
-  templateUrl: './go-sodu.component.html',
-  styleUrls: ['./go-sodu.component.scss']
+  templateUrl: './go-sodu.page.html',
+  styleUrls: ['./go-sodu.page.scss'],
 })
-export class GoSoduComponent implements OnInit {
+export class GoSoduPage implements OnInit {
 
   soduPlay = {
     playId: 123,

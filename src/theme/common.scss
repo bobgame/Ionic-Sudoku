@@ -1,0 +1,17 @@
+h2 {
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+  font-size: 1.8em;
+}
+
+ion-button {
+  width: 240px;
+  height: 44px;
+  margin-bottom: 3vh;
+  font-size: 18px;
+  --border-radius: 200px;
+
+  ion-icon {
+    --float: left;
+  }
+}

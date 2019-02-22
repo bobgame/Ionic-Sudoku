@@ -9,9 +9,14 @@
 <ion-content [scrollY]="false">
   <h2 text-center>{{LanData?.home.title}}</h2>
   <div text-center>
-    <ion-button routerLink="/home/go-sodu">
-      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+    <ion-button routerLink="/home/go-sodu" icon-start>
       <ion-label>{{LanData?.common.soduku}}</ion-label>
+    </ion-button>
+    <ion-button routerLink="/setting" icon-start>
+      <ion-label>{{LanData?.common.settings}}</ion-label>
+    </ion-button>
+    <ion-button routerLink="/about" icon-start>
+      <ion-label>{{LanData?.common.about}}</ion-label>
     </ion-button>
   </div>
   <!-- <div text-center>

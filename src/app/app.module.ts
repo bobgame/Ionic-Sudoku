@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -16,7 +17,9 @@ import 'hammerjs';
 import { SoduService } from './service/sodu/sodu.service';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { SoduService } from './service/sodu/sodu.service';
     StatusBar,
     SplashScreen,
     SoduService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

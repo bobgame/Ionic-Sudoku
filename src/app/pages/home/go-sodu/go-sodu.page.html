@@ -9,14 +9,12 @@
 <ion-content [scrollY]="false">
   <h2 text-center>{{LanData?.home.title}}</h2>
   <div text-center *ngIf="continueButton">
-    <ion-button (click)="continueSodu()">
-      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
+    <ion-button (click)="continueSodu()" color="tertiary">
       <ion-label>{{LanData?.common.continue}}</ion-label>
     </ion-button>
   </div>
   <div *ngFor="let hard of hardModeName, let i = index" text-center>
     <ion-button (click)="goToSodu(i)">
-      <ion-icon slot="start" name="logo-game-controller-b"></ion-icon>
       <ion-label>{{hard}}</ion-label>
     </ion-button>
   </div>

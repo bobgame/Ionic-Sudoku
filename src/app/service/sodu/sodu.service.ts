@@ -117,8 +117,8 @@ export class SoduService {
     }
   }
 
-  newGame() {
-    this.chooseHardModePopup()
+  newGame(common: any) {
+    this.chooseHardModePopup(common)
   }
 
   createBlankArr(level: number, hardMode: number) {
@@ -495,29 +495,29 @@ export class SoduService {
   }
 
   // 弹窗类
-  async chooseHardModePopup() {
+  async chooseHardModePopup(common: any) {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Hard Mode',
+      header: common.hardMode,
       buttons: [{
-        text: this.hardModeName[0],
+        text: common.starter,
         // icon: 'grid',
         handler: () => {
           this.createNewGame(0)
         }
       }, {
-        text: this.hardModeName[1],
+        text: common.normal,
         // icon: 'grid',
         handler: () => {
           this.createNewGame(1)
         }
       }, {
-        text: this.hardModeName[2],
+        text: common.master,
         // icon: 'grid',
         handler: () => {
           this.createNewGame(2)
         }
       }, {
-        text: 'Cancel',
+        text: common.cancel,
         // icon: 'close',
         role: 'cancel',
         handler: () => {
