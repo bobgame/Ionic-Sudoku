@@ -276,6 +276,78 @@ ion-header {
   width: 100%;
   height: calc(100% - 34px - 2px);
   background: #fff;
+
+  .title {
+    padding-top: 30px;
+    padding-bottom: 10px;
+  }
+
+  .sub-title {
+    padding: 0 16px 10px;
+  }
+
+  ion-card {
+    margin-top: 0;
+    margin-bottom: 3vh;
+
+    ion-label {
+      min-width: 110px;
+      max-width: 130px;
+    }
+
+    .star-title {
+      font-size: 3vh;
+    }
+
+    .star-num {
+      --color: var(--ion-color-services);
+      font-size: 4vh;
+    }
+
+    .star {
+      color: var(--ion-color-services);
+      font-size: 3vh;
+    }
+
+  }
+
+  ion-button {
+    width: 240px;
+    height: 44px;
+    margin-top: 5vh;
+    font-size: 18px;
+    --border-radius: 200px;
+  }
+
+}
+
+.win-mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 999;
+  background: #ffffff;
+
+  .title {
+    padding-top: 60px;
+    padding-bottom: 3vh;
+  }
+
+  .sub-title {
+    padding-bottom: 4vh;
+    color: var(--ion-color-services);
+  }
+
+  ion-button {
+    width: 240px;
+    height: 44px;
+    margin-top: 5vh;
+    font-size: 18px;
+    --border-radius: 200px;
+  }
 }
 
 @media (min-width: 500px) {

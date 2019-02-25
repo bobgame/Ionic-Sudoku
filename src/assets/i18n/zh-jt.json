@@ -11,14 +11,21 @@
     "continue": "继续",
     "settings": "设置",
     "hardMode": "难度",
-    "cancel": "取消"
+    "cancel": "取消",
+    "newGame": "新游戏",
+    "backHome": "返回首页",
+    "nextLevel": "快速开始",
+    "congratulations": "恭喜！你赢了！",
+    "got": "获得"
   },
   "home": {
     "title": "清新数独",
     "titleSodu": "首页-数独"
   },
   "sodu": {
-    "star": "星星"
+    "star": "星星",
+    "pausing": "暂停中...",
+    "ownStars": "拥有的星星"
   },
   "setting": {
     "changeLanguage": "切换语言"

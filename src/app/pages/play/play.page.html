@@ -99,9 +99,44 @@
     <!-- </div> -->
   </div>
   <div class="pause-mask" *ngIf="playBtnStatus" text-center>
+    <h2 class="title">
+      {{LanData?.sodu.pausing}}
+    </h2>
+    <div class="sub-title" text-left>
+      {{LanData?.sodu.ownStars}}
+    </div>
+    <ion-card *ngFor="let starItem of soduStars">
+      <ion-item>
+        <ion-label slot="start" class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-label>
+        <ion-label slot="end" text-right class="star-num">{{starItem.starNum}}</ion-label>
+        <ion-icon src="assets/svg/star-full.svg" slot="end" class="star"></ion-icon>
+      </ion-item>
+    </ion-card>
     <ion-button text-center (click)="clickPlayOrPauseBtn()">
-      <ion-icon name="play"></ion-icon>
+      <ion-icon name="play" slot="start"></ion-icon>
       {{LanData?.common.continue}}
     </ion-button>
+  </div>
+  <div class="win-mask" *ngIf="soduShow.nowGameWin">
+    <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
+    <h1 class="sub-title" text-center>{{LanData?.common.got}} {{soduData.star}}
+      <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">
+      </ion-icon>!
+    </h1>
+    <div class="btn-content" text-center>
+      <ion-button text-center (click)="newGame()">
+        <ion-icon name="add" slot="start"></ion-icon>
+        {{LanData?.common.newGame}}
+      </ion-button>
+      <ion-button text-center>
+        <ion-icon name="home" slot="start"></ion-icon>
+        {{LanData?.common.backHome}}
+      </ion-button>
+      <ion-button text-center>
+        <ion-icon name="play" slot="start"></ion-icon>
+        {{LanData?.common.nextLevel}}
+      </ion-button>
+
+    </div>
   </div>
 </div>

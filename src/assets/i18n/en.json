@@ -11,14 +11,21 @@
     "continue": "Continue",
     "settings": "Settings",
     "hardMode": "Hard mode",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "newGame": "New Game",
+    "backHome": "Back Home",
+    "nextLevel": "Next Level",
+    "congratulations": "Congratulations! You win!",
+    "got": "Got"
   },
   "home": {
     "title": "Fresh Soduku",
     "titleSodu": "Home-Soduku"
   },
   "sodu": {
-    "star": "star"
+    "star": "star",
+    "pausing": "Pausing...",
+    "ownStars": "Own stars"
   },
   "setting": {
     "changeLanguage": "Change Language"

@@ -41,6 +41,7 @@ export class SoduService {
     tipNumberIndexes: [],
     showTime: '00:00',
     pauseTime: false,
+    nowGameWin: false,
   }
   SoduPlay = {
     playId: 1,
@@ -372,8 +373,6 @@ export class SoduService {
     }
     if (count === 81) {
       this.checkResult()
-    } else {
-
     }
   }
   showErrors() {
@@ -433,6 +432,7 @@ export class SoduService {
   // 当输入完整时，检测结果
   checkResult() {
     if (this.SoduData.errorArr.length === 0) {
+      this.SoduShow.nowGameWin = true
       this.simpleAlert('Tips', 'Congratulations! You win!')
     } else {
       this.showErrors()
@@ -476,16 +476,16 @@ export class SoduService {
             starNum: 0
           },
           {
-            mode: 0,
+            mode: 1,
             starNum: 0
           },
           {
-            mode: 0,
+            mode: 2,
             starNum: 0
           }
         ]
       }
-      console.log('this.SoduStars[0]: ' + this.SoduStars[0].starNum)
+      // console.log('this.SoduStars[0]: ' + this.SoduStars[0].starNum)
       this.setStars()
     })
   }

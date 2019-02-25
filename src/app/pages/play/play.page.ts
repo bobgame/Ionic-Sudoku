@@ -109,6 +109,12 @@ export class PlayPage implements OnInit, OnDestroy {
     }
     return ''
   }
+  getModeNameWithIndex(index: number) {
+    if (this.hardModeName) {
+      return this.hardModeName[index]
+    }
+    return ''
+  }
 
   seeIfBlank(index: number) {
     return this.soduService.seeIfBlank(index)
@@ -163,6 +169,7 @@ export class PlayPage implements OnInit, OnDestroy {
   getStars() {
     this.soduService.getStars().then(() => {
       this.soduStars = this.soduService.SoduStars
+      console.log(`this.soduStars: ${this.soduStars}`)
     })
   }
 
