@@ -119,9 +119,10 @@
   </div>
   <div class="win-mask" *ngIf="soduShow.nowGameWin">
     <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
-    <h1 class="sub-title" text-center>{{LanData?.common.got}} {{soduData.star}}
+    <h1 class="sub-title" text-center>{{LanData?.common.got}}
       <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">
-      </ion-icon>!
+      </ion-icon>
+      x {{soduData.star}}
     </h1>
     <div class="btn-content" text-center>
       <ion-button text-center (click)="newGame()">
