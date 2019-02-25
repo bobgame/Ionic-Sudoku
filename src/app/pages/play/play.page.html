@@ -105,11 +105,12 @@
       {{LanData?.sodu.ownStars}}
     </div>
     <ion-card *ngFor="let starItem of soduStars">
-      <ion-item>
-        <ion-label slot="start" class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-label>
-        <ion-label slot="end" text-right class="star-num">{{starItem.starNum}}</ion-label>
-        <ion-icon src="assets/svg/star-full.svg" slot="end" class="star"></ion-icon>
-      </ion-item>
+      <ion-row>
+        <ion-col text-left class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-col>
+        <ion-col text-right class="star-num">{{starItem.starNum}}
+          <ion-icon src="assets/svg/star-full.svg" class="star"></ion-icon>
+        </ion-col>
+      </ion-row>
     </ion-card>
     <ion-button text-center (click)="clickPlayOrPauseBtn()">
       <ion-icon name="play" slot="start"></ion-icon>

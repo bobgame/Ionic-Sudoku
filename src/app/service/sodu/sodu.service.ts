@@ -54,6 +54,7 @@ export class SoduService {
           this.SoduShow.soduReady = true
           this.startShowTime()
         } else {
+          this.SoduData = data
           this.createNewGame(this.SoduData.nowMode)
         }
       } else {

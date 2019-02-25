@@ -190,7 +190,7 @@ ion-header {
 }
 
 .number-btns {
-  width: 70%;
+  width: 75%;
   height: 100%;
   max-height: 66vw;
   justify-content: center;
@@ -223,7 +223,7 @@ ion-header {
 }
 
 .tools-btns {
-  width: 30%;
+  width: 25%;
   height: 100%;
   max-height: 66vw;
   justify-content: center;
@@ -248,7 +248,7 @@ ion-header {
     }
 
     ion-icon {
-      font-size: 10vw;
+      font-size: 7vw;
       color: #666;
     }
 
@@ -290,18 +290,18 @@ ion-header {
     margin-top: 0;
     margin-bottom: 3vh;
 
-    ion-label {
-      min-width: 110px;
-      max-width: 130px;
-    }
 
     .star-title {
+      display: flex;
+      align-items: center;
       font-size: 3vh;
+      margin-left: 2vw;
     }
 
     .star-num {
-      --color: var(--ion-color-services);
+      color: var(--ion-color-services);
       font-size: 4vh;
+      margin-right: 2vw;
     }
 
     .star {
