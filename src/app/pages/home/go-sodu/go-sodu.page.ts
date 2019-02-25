@@ -31,7 +31,6 @@ export class GoSoduPage implements OnInit {
 
     lanService.getLanguage().then(() => {
       if (lanService.LanData) {
-        console.log(333333333333)
         this.LanData = lanService.LanData
         this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
       } else {
@@ -50,7 +49,7 @@ export class GoSoduPage implements OnInit {
   ngOnInit() {
     this.storage.get('sd-data').then((data) => {
       if (data) {
-        this.continueButton = true
+        if (data.soduArr.length > 0) { this.continueButton = true }
       } else {
         this.continueButton = false
       }

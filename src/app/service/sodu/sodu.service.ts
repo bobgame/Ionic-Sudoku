@@ -29,11 +29,7 @@ export class SoduService {
     time: 0,
     star: this.STAR_MAX,
     nowMode: 0,
-    mode: {
-      Starter: 1,
-      Normal: 1,
-      Master: 1
-    },
+    mode: [1, 1, 1]
   }
   SoduShow = {
     soduReady: false,
@@ -42,6 +38,7 @@ export class SoduService {
     showTime: '00:00',
     pauseTime: false,
     nowGameWin: false,
+    winStar: 0,
   }
   SoduPlay = {
     playId: 1,
@@ -52,12 +49,16 @@ export class SoduService {
   async InitSodu() {
     return this.storage.get('sd-data').then((data) => {
       if (data) {
-        this.SoduData = data
-        this.SoduShow.soduReady = true
-        this.startShowTime()
+        if (data.soduArr.length > 0) {
+          this.SoduData = data
+          this.SoduShow.soduReady = true
+          this.startShowTime()
+        } else {
+          this.createNewGame(this.SoduData.nowMode)
+        }
       } else {
         this.createNewGame(this.SoduData.nowMode)
-        console.log('New sodu: ' + this.SoduData)
+        // console.log('New sodu: ' + this.SoduData)
       }
       this.saveData()
     })
@@ -171,7 +172,7 @@ export class SoduService {
 
   setShowPlayNumber(index: number): void {
     this.SoduShow.playNumber = index
-    console.log('playNumber: ' + this.SoduShow.playNumber)
+    // console.log('playNumber: ' + this.SoduShow.playNumber)
     // 计算与此空格相关的格子
     this.getRelatedIndex(index)
   }
@@ -352,7 +353,7 @@ export class SoduService {
     ]
     const arr = this.getConnect(this.getConnect(xIndexArr, yIndexArr), thIndexArr)
     this.SoduShow.tipNumberIndexes = arr
-    console.log(arr)
+    // console.log(arr)
   }
   checkSomeNumbers(num: number) {
     this.SoduShow.playNumber = null
@@ -376,7 +377,7 @@ export class SoduService {
     }
   }
   showErrors() {
-    console.log('errorArr: ' + this.SoduData.errorArr)
+    // console.log('errorArr: ' + this.SoduData.errorArr)
   }
   checkErrors() {
     this.SoduData.errorArr = []
@@ -432,8 +433,21 @@ export class SoduService {
   // 当输入完整时，检测结果
   checkResult() {
     if (this.SoduData.errorArr.length === 0) {
+      this.SoduShow.winStar = this.SoduData.star
+      this.SoduStars.find(s => s.mode === this.SoduData.nowMode).starNum += this.SoduShow.winStar
+      this.SoduData.mode[this.SoduData.nowMode] += 1
+      console.log(this.SoduData.mode[this.SoduData.nowMode])
+      this.pauseShowTime()
+      this.SoduData.time = 0
+      this.SoduData.errorArr = []
+      this.SoduData.star = this.STAR_MAX
+      this.SoduShow.playNumber = null
+      this.SoduShow.tipNumberIndexes = []
+      this.SoduData.soduArr = []
       this.SoduShow.nowGameWin = true
-      this.simpleAlert('Tips', 'Congratulations! You win!')
+      this.saveData()
+      this.saveStars()
+      // this.simpleAlert('Tips', 'Congratulations! You win!')
     } else {
       this.showErrors()
     }
@@ -451,17 +465,18 @@ export class SoduService {
     this.pauseShowTime()
     this.SoduData.nowMode = hardMode
     this.SoduData.time = 0
+    this.SoduShow.nowGameWin = false
     this.SoduData.errorArr = []
     this.SoduData.star = this.STAR_MAX
     this.SoduShow.playNumber = null
     this.SoduShow.tipNumberIndexes = []
     this.createBlankEditBoard()
     this.createSoduArr()
-    this.createBlankArr(this.SoduData.mode[this.hardModeName[hardMode]], hardMode)
+    this.createBlankArr(this.SoduData.mode[hardMode], hardMode)
     this.createSoduPlayArr()
     this.saveData()
     this.startShowTime()
-    console.log(this.SoduData)
+    // console.log(this.SoduData)
   }
 
   // 获取星星star
@@ -486,11 +501,11 @@ export class SoduService {
         ]
       }
       // console.log('this.SoduStars[0]: ' + this.SoduStars[0].starNum)
-      this.setStars()
+      this.saveStars()
     })
   }
 
-  setStars() {
+  saveStars() {
     this.storage.set('sd-stars', this.SoduStars)
   }
 
@@ -521,7 +536,7 @@ export class SoduService {
         // icon: 'close',
         role: 'cancel',
         handler: () => {
-          console.log('Cancel clicked');
+          // console.log('Cancel clicked');
         }
       }]
     });

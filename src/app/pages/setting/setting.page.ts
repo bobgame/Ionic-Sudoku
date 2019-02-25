@@ -25,7 +25,7 @@ export class SettingPage implements OnInit {
   }
 
   select() {
-    console.log(this.lanValue);
+    // console.log(this.lanValue);
     this.settingService.settings.Lang = this.lanValue
     this.settings.Lang = this.lanValue
     this.settingService.saveSettingDatas()
@@ -43,7 +43,7 @@ export class SettingPage implements OnInit {
       }
       this.lanValue = this.settingService.settings.Lang
       this.settings = this.settingService.settings
-      console.log(this.LanData)
+      // console.log(this.LanData)
     })
   }
   getNewLanguage(Lang) {

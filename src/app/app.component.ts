@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.initializeApp()
     this.soduPlay = this.soduService.SoduPlay
     this.soduPlay.playId = Math.floor(Math.random() * 1000)
-    console.log('app component')
+    // console.log('app component')
     lanService.getLanguage().then(() => {
       lanService.getLanJson()
         .subscribe((data) => this.LanData = data);

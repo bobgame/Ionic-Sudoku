@@ -27,11 +27,7 @@ export class PlayPage implements OnInit, OnDestroy {
     time: 0,
     star: 5,
     nowMode: 0,
-    mode: {
-      Starter: 1,
-      Normal: 1,
-      Master: 1
-    }
+    mode: [1, 1, 1]
   }
   soduShow = {
     soduReady: false,
@@ -103,15 +99,23 @@ export class PlayPage implements OnInit, OnDestroy {
     this.soduService.newGame(this.LanData.common)
   }
 
+  nextLevelGame(): void {
+    this.soduService.createNewGame(this.soduData.nowMode)
+  }
+
   getModeName() {
     if (this.hardModeName && this.soduData) {
-      return this.hardModeName[this.soduData.nowMode]
+      const nowModeName = this.hardModeName[this.soduData.nowMode]
+      const nowModeLevel = this.soduData.mode[this.soduData.nowMode]
+      return `${nowModeName} ${nowModeLevel}`
     }
     return ''
   }
   getModeNameWithIndex(index: number) {
     if (this.hardModeName) {
-      return this.hardModeName[index]
+      const thisModeName = this.hardModeName[index]
+      const thisModeLevel = this.soduData.mode[index]
+      return `${thisModeName} Lv${thisModeLevel}`
     }
     return ''
   }
@@ -137,6 +141,7 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   setShowPlayNumber(index: number): void {
+    console.log(this.soduData.soduArr[index])
     this.soduService.setShowPlayNumber(index)
   }
 
@@ -169,12 +174,12 @@ export class PlayPage implements OnInit, OnDestroy {
   getStars() {
     this.soduService.getStars().then(() => {
       this.soduStars = this.soduService.SoduStars
-      console.log(`this.soduStars: ${this.soduStars}`)
+      // console.log(`this.soduStars: ${this.soduStars}`)
     })
   }
 
-  setStars() {
-    this.soduService.setStars()
+  saveStars() {
+    this.soduService.saveStars()
   }
 
   testStar() {

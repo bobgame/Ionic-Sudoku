@@ -18,7 +18,7 @@ export class LanService {
   Lang
   settings: any
   getLanJson() {
-    console.log(this.LanData)
+    // console.log(this.LanData)
     return this.http.get(`assets/i18n/${this.Lang}.json`)
   }
   getLanJsonWithLang(Lang) {
@@ -40,10 +40,10 @@ export class LanService {
     return this.settingService.loadSettingDatas().then((setting) => {
       this.settings = this.settingService.settings
       this.Lang = this.settingService.settings.Lang
-      console.log('get language this.Lang: ' + this.Lang)
+      // console.log('get language this.Lang: ' + this.Lang)
       if (this.Lang === '') {
         this.Language = navigator.language
-        console.log('this.Language: ' + this.Language)
+        // console.log('this.Language: ' + this.Language)
         if (this.Language.indexOf('zh') > -1) {
           if (this.Language.indexOf('zh-HK') > -1 ||
             this.Language.indexOf('zh-MO') > -1 ||
@@ -59,8 +59,8 @@ export class LanService {
       }
       // this.Lang = 'en'
       this.settingService.settings.Lang = this.Lang
-      console.log('this.Lang: ' + this.Lang)
-      console.log('this.settings.sodu: ' + this.settings.Lang)
+      // console.log('this.Lang: ' + this.Lang)
+      // console.log('this.settings.sodu: ' + this.settings.Lang)
       this.settingService.saveSettingDatas()
     })
   }
