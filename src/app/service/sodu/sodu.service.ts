@@ -435,7 +435,9 @@ export class SoduService {
   checkResult() {
     if (this.SoduData.errorArr.length === 0) {
       this.SoduShow.winStar = this.SoduData.star
-      this.SoduStars.find(s => s.mode === this.SoduData.nowMode).starNum += this.SoduShow.winStar
+      const thisSoduStar = this.SoduStars.find(s => s.mode === this.SoduData.nowMode)
+      thisSoduStar.starNum += this.SoduShow.winStar
+      thisSoduStar.totalTime += this.SoduData.time
       this.SoduData.mode[this.SoduData.nowMode] += 1
       console.log(this.SoduData.mode[this.SoduData.nowMode])
       this.pauseShowTime()
@@ -489,15 +491,18 @@ export class SoduService {
         this.SoduStars = [
           {
             mode: 0,
-            starNum: 0
+            starNum: 0,
+            totalTime: 0,
           },
           {
             mode: 1,
-            starNum: 0
+            starNum: 0,
+            totalTime: 0,
           },
           {
             mode: 2,
-            starNum: 0
+            starNum: 0,
+            totalTime: 0,
           }
         ]
       }

@@ -69,14 +69,6 @@
   </div>
 
   <div class="game-bottom">
-    <div class="number-btns">
-      <ion-button class="num-btn"
-                  *ngFor="let number of numArr"
-                  (click)="clickPlayNumber(number)"
-                  [disabled]="soduShow.playNumber == null">
-        {{number}}
-      </ion-button>
-    </div>
     <div class="tools-btns" text-center>
       <ion-button class="tool-btn"
                   (click)="clearPlayNumber()"
@@ -92,12 +84,20 @@
                   [ngClass]="{'active': seeIfShowSmallBtn()}" icon-only></ion-icon>
       </ion-button>
     </div>
+    <div class="number-btns">
+      <ion-button class="num-btn"
+                  *ngFor="let number of numArr"
+                  (click)="clickPlayNumber(number)"
+                  [disabled]="soduShow.playNumber == null">
+        {{number}}
+      </ion-button>
+    </div>
     <!-- <div class="game-btns" text-center> -->
     <!-- <ion-button (click)="newGame()">New Game</ion-button> -->
     <!-- <ion-card (press)="itemPressed($event)"></ion-card> -->
     <!-- </div> -->
   </div>
-  <div class="pause-mask" *ngIf="playBtnStatus" text-center>
+  <div class="pause-mask" [ngClass]="{'show': playBtnStatus}" text-center>
     <h2 class="title">
       {{LanData?.sodu.pausing}}
     </h2>
@@ -117,7 +117,7 @@
       {{LanData?.common.continue}}
     </ion-button>
   </div>
-  <div class="win-mask" *ngIf="soduShow.nowGameWin">
+  <div class="win-mask" [ngClass]="{'show': soduShow.nowGameWin}">
     <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
     <h1 class="sub-title" text-center>{{LanData?.common.got}}
       <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">

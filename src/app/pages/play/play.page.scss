@@ -201,7 +201,7 @@ ion-header {
   .num-btn {
     float: left;
     width: calc(100% / 3);
-    height: calc(100% / 3);
+    height: calc(100% / 3.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,7 +231,7 @@ ion-header {
 
   .tool-btn {
     width: calc(100%);
-    height: calc(100% / 3);
+    height: calc(100% / 3.1);
     font-size: 0;
     margin: 0;
     --background: none;
@@ -272,10 +272,17 @@ ion-header {
 
 .pause-mask {
   position: absolute;
-  top: calc(34px);
+  top: -100vh;
   width: 100%;
   height: calc(100% - 34px - 2px);
   background: #fff;
+  opacity: 0;
+  transition: .3s all;
+
+  &.show {
+    opacity: 1;
+    top: calc(34px);
+  }
 
   .title {
     padding-top: 30px;
@@ -324,12 +331,19 @@ ion-header {
 .win-mask {
   position: fixed;
   left: 0;
-  top: 0;
+  top: 120vh;
+  opacity: 1;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   z-index: 999;
   background: #ffffff;
+  transition: .3s all;
+
+  &.show {
+    top: 0;
+    opacity: 1;
+  }
 
   .title {
     padding-top: 60px;
