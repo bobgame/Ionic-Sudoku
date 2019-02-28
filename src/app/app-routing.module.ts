@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'about', loadChildren: './pages/about/about.module#AboutPageModule' },
   { path: 'loading', loadChildren: './pages/loading/loading.module#LoadingPageModule' },
   { path: 'setting', loadChildren: './pages/setting/setting.module#SettingPageModule' },
-
+  { path: 'rank', loadChildren: './pages/rank/rank.module#RankPageModule' },
 ];
 
 @NgModule({
