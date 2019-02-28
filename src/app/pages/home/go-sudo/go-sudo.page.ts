@@ -1,33 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { SoduService } from '../../../service/sodu/sodu.service';
+import { SudoService } from '../../../service/sudo/sudo.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { LanService } from '../../../service/lan/lan.service';
 import { Events } from '@ionic/angular';
 
 @Component({
-  selector: 'app-go-sodu',
-  templateUrl: './go-sodu.page.html',
-  styleUrls: ['./go-sodu.page.scss'],
+  selector: 'app-go-sudo',
+  templateUrl: './go-sudo.page.html',
+  styleUrls: ['./go-sudo.page.scss'],
 })
-export class GoSoduPage implements OnInit {
+export class GoSudoPage implements OnInit {
 
-  soduPlay = {
+  sudoPlay = {
     playId: 123,
   }
   hardModeName: string[]
   continueButton: boolean
   LanData
   constructor(
-    private soduService: SoduService,
+    private sudoService: SudoService,
     private router: Router,
     private storage: Storage,
     private lanService: LanService,
     private events: Events,
   ) {
-    this.soduPlay.playId = Math.floor(Math.random() * 1000)
-    this.soduPlay = this.soduService.SoduPlay
-    this.hardModeName = this.soduService.hardModeName
+    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
+    this.sudoPlay = this.sudoService.SudoPlay
+    this.hardModeName = this.sudoService.hardModeName
 
     lanService.getLanguage().then(() => {
       if (lanService.LanData) {
@@ -49,20 +49,20 @@ export class GoSoduPage implements OnInit {
   ngOnInit() {
     this.storage.get('sd-data').then((data) => {
       if (data) {
-        if (data.soduArr.length > 0) { this.continueButton = true }
+        if (data.sudoArr.length > 0) { this.continueButton = true }
       } else {
         this.continueButton = false
       }
     })
   }
 
-  continueSodu() {
-    this.router.navigate([`/play/${this.soduPlay.playId}`])
+  continueSudo() {
+    this.router.navigate([`/play/${this.sudoPlay.playId}`])
   }
 
-  goToSodu(index: number) {
-    this.soduService.createNewGame(index)
-    this.router.navigate([`/play/${this.soduPlay.playId}`])
+  goToSudo(index: number) {
+    this.sudoService.createNewGame(index)
+    this.router.navigate([`/play/${this.sudoPlay.playId}`])
   }
 
 }

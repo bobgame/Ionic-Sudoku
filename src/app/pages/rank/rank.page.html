@@ -7,14 +7,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let rankItem of rankData">
-      <ion-label>{{rankItem?.rankIndex}} {{rankItem?.name}}</ion-label>
-      <ion-label>
-        <span>{{rankItem?.starterStar}}</span>
-        <ion-icon src="assets/svg/star-full.svg" class="star"></ion-icon>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content padding [scrollY]="false">
+  <div class="rank-con">
+    <div class="rank-item" *ngFor="let rankItem of rankData">
+      <div class="rank-left">
+        <span class="rank-index">{{rankItem?.rankIndex}}</span>
+        <span class="rank-name">{{rankItem?.name}}</span>
+      </div>
+      <div class="rank-right">
+        <span class="rank-star-num">{{rankItem?.starterStar}}</span>
+        <ion-icon src="assets/svg/star-full.svg" class="rank-star-icon" color=""></ion-icon>
+      </div>
+    </div>
+  </div>
 </ion-content>

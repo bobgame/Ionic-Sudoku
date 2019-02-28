@@ -3,12 +3,12 @@ import { AlertController } from '@ionic/angular';
 import { CelShowTime } from '../../../utils/get-time';
 import { Storage } from '@ionic/storage';
 import { ActionSheetController } from '@ionic/angular';
-import { SoduStar } from 'src/app/datas/data-types';
+import { SudoStar } from 'src/app/datas/data-types';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SoduService {
+export class SudoService {
 
   constructor(
     private alertController: AlertController,
@@ -17,22 +17,22 @@ export class SoduService {
   ) { }
   numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   starArr = [1, 2, 3, 4, 5]
-  soduName = 'Simple Soduku'
+  sudoName = 'Simple Sudoku'
   hardModeName = ['Starter', 'Normal', 'Master']
   STAR_MAX = this.starArr.length
-  SoduData = {
-    soduArr: [],
+  SudoData = {
+    sudoArr: [],
     blankArr: [],
     blankEditBoard: [],
-    soduPlayArr: [],
+    sudoPlayArr: [],
     errorArr: [],
     time: 0,
     star: this.STAR_MAX,
     nowMode: 0,
     mode: [1, 1, 1]
   }
-  SoduShow = {
-    soduReady: false,
+  SudoShow = {
+    sudoReady: false,
     playNumber: null,
     tipNumberIndexes: [],
     showTime: '00:00',
@@ -40,67 +40,67 @@ export class SoduService {
     nowGameWin: false,
     winStar: 0,
   }
-  SoduPlay = {
+  SudoPlay = {
     playId: 1,
   }
-  SoduStars: SoduStar[]
+  SudoStars: SudoStar[]
   showTimeInterval: any
 
-  async InitSodu() {
+  async InitSudo() {
     return this.storage.get('sd-data').then((data) => {
       if (data) {
-        if (data.soduArr.length > 0) {
-          this.SoduData = data
-          this.SoduShow.soduReady = true
+        if (data.sudoArr.length > 0) {
+          this.SudoData = data
+          this.SudoShow.sudoReady = true
           this.startShowTime()
         } else {
-          this.SoduData = data
-          this.createNewGame(this.SoduData.nowMode)
+          this.SudoData = data
+          this.createNewGame(this.SudoData.nowMode)
         }
       } else {
-        this.createNewGame(this.SoduData.nowMode)
-        // console.log('New sodu: ' + this.SoduData)
+        this.createNewGame(this.SudoData.nowMode)
+        // console.log('New sudo: ' + this.SudoData)
       }
       this.saveData()
     })
   }
 
   startShowTime() {
-    console.log('Start Show Time: ' + this.SoduShow.showTime)
+    console.log('Start Show Time: ' + this.SudoShow.showTime)
     clearInterval(this.showTimeInterval)
-    this.SoduShow.showTime = CelShowTime(this.SoduData.time)
+    this.SudoShow.showTime = CelShowTime(this.SudoData.time)
     this.showTimeInterval = setInterval(() => {
-      this.SoduData.time++
-      this.SoduShow.showTime = CelShowTime(this.SoduData.time)
-      this.SoduShow.pauseTime = false
+      this.SudoData.time++
+      this.SudoShow.showTime = CelShowTime(this.SudoData.time)
+      this.SudoShow.pauseTime = false
       this.saveData()
     }, 1000)
   }
   pauseShowTime() {
-    console.log('Pause Show Time: ' + this.SoduShow.showTime)
-    this.SoduShow.pauseTime = true
+    console.log('Pause Show Time: ' + this.SudoShow.showTime)
+    this.SudoShow.pauseTime = true
     clearInterval(this.showTimeInterval)
   }
 
   // 生成数独
-  createSoduArr() {
+  createSudoArr() {
     try {
-      this.SoduData.soduArr = []
-      this.creatThird(2, 8, this.SoduData.soduArr)
-      this.creatThird(5, 5, this.SoduData.soduArr)
-      this.creatThird(8, 2, this.SoduData.soduArr)
+      this.SudoData.sudoArr = []
+      this.creatThird(2, 8, this.SudoData.sudoArr)
+      this.creatThird(5, 5, this.SudoData.sudoArr)
+      this.creatThird(8, 2, this.SudoData.sudoArr)
       for (let i = 1; i <= 9; i++) {
         for (let j = 1; j <= 9; j++) {
-          if (this.SoduData.soduArr[i * 10 + j]) {
+          if (this.SudoData.sudoArr[i * 10 + j]) {
             continue
           }
-          const XArr = this.getXArr(i, this.SoduData.soduArr)
-          const YArr = this.getYArr(j, this.SoduData.soduArr)
-          const thArr = this.getThArr(i, j, this.SoduData.soduArr)
+          const XArr = this.getXArr(i, this.SudoData.sudoArr)
+          const YArr = this.getYArr(j, this.SudoData.sudoArr)
+          const thArr = this.getThArr(i, j, this.SudoData.sudoArr)
           const arr = this.getConnect(this.getConnect(XArr, YArr), thArr)
           const ableArr = this.arrMinus(this.numArr, arr)
           if (ableArr.length === 0) {
-            this.createSoduArr()
+            this.createSudoArr()
             return
           }
 
@@ -109,14 +109,14 @@ export class SoduService {
           do {
             item = ableArr[this.getRandom(ableArr.length) - 1]
           } while ((arr.indexOf(item) > -1))
-          this.SoduData.soduArr[i * 10 + j] = item
-          this.SoduShow.soduReady = true
+          this.SudoData.sudoArr[i * 10 + j] = item
+          this.SudoShow.sudoReady = true
         }
       }
       this.saveData()
     } catch (e) {
       // 如果因为超出浏览器的栈限制出错，就重新运行。
-      this.createSoduArr()
+      this.createSudoArr()
     }
   }
 
@@ -136,67 +136,67 @@ export class SoduService {
       } while (arr.indexOf(item) > -1)
       arr.push(item)
     }
-    this.SoduData.blankArr = arr
+    this.SudoData.blankArr = arr
   }
 
   createBlankEditBoard(): void {
-    this.SoduData.blankEditBoard = []
+    this.SudoData.blankEditBoard = []
     for (let a = 0; a < 100; a++) {
-      this.SoduData.blankEditBoard[a] = [false, false, false, false, false, false, false, false, false, false]
+      this.SudoData.blankEditBoard[a] = [false, false, false, false, false, false, false, false, false, false]
     }
   }
 
   seeIfBlank(index: number) {
-    return this.SoduData.blankArr.indexOf(index) === -1
+    return this.SudoData.blankArr.indexOf(index) === -1
   }
 
   seeIfBlankBoard(index: number) {
-    return this.SoduData.blankEditBoard[index][0]
+    return this.SudoData.blankEditBoard[index][0]
   }
 
-  createSoduPlayArr() {
+  createSudoPlayArr() {
     const arr = []
     for (let i = 1; i <= 9; i++) {
       for (let j = 1; j <= 9; j++) {
         const thisIndex = i * 10 + j
-        const buckupNum = this.SoduData.soduArr[thisIndex]
-        if (this.SoduData.blankArr.indexOf(thisIndex) > -1) {
+        const buckupNum = this.SudoData.sudoArr[thisIndex]
+        if (this.SudoData.blankArr.indexOf(thisIndex) > -1) {
           arr[thisIndex] = null
         } else {
           arr[thisIndex] = buckupNum
         }
       }
     }
-    this.SoduData.soduPlayArr = arr
+    this.SudoData.sudoPlayArr = arr
     this.saveData()
   }
 
   setShowPlayNumber(index: number): void {
-    this.SoduShow.playNumber = index
-    // console.log('playNumber: ' + this.SoduShow.playNumber)
+    this.SudoShow.playNumber = index
+    // console.log('playNumber: ' + this.SudoShow.playNumber)
     // 计算与此空格相关的格子
     this.getRelatedIndex(index)
   }
   clearPlayNumber() {
-    this.SoduData.soduPlayArr[this.SoduShow.playNumber] = null
-    const index = this.SoduData.errorArr.indexOf(this.SoduShow.playNumber);
+    this.SudoData.sudoPlayArr[this.SudoShow.playNumber] = null
+    const index = this.SudoData.errorArr.indexOf(this.SudoShow.playNumber);
     if (index > -1) {
-      this.SoduData.errorArr.splice(index, 1);
+      this.SudoData.errorArr.splice(index, 1);
     }
     this.saveData()
   }
 
   clickPlayNumber(num: number): void {
-    const thisEditBoard = this.SoduData.blankEditBoard[this.SoduShow.playNumber]
+    const thisEditBoard = this.SudoData.blankEditBoard[this.SudoShow.playNumber]
     if (thisEditBoard[0]) {
       thisEditBoard[num] = !thisEditBoard[num]
     } else {
-      this.SoduData.soduPlayArr[this.SoduShow.playNumber] = num
-      const errorLengthBefore = this.SoduData.errorArr.length
+      this.SudoData.sudoPlayArr[this.SudoShow.playNumber] = num
+      const errorLengthBefore = this.SudoData.errorArr.length
       this.checkErrors()
-      const errorLengthAfter = this.SoduData.errorArr.length
+      const errorLengthAfter = this.SudoData.errorArr.length
       if (errorLengthAfter > errorLengthBefore) {
-        if (this.SoduData.star > 0) { this.SoduData.star-- }
+        if (this.SudoData.star > 0) { this.SudoData.star-- }
       }
       this.checkIfNumbersFull()
     }
@@ -204,27 +204,27 @@ export class SoduService {
   }
 
   setThisEditBoardStatus() {
-    const thisEditBoard = this.SoduData.blankEditBoard[this.SoduShow.playNumber]
+    const thisEditBoard = this.SudoData.blankEditBoard[this.SudoShow.playNumber]
     thisEditBoard[0] = !thisEditBoard[0]
   }
 
   seeIfBlankBoardNumber(index: number, num: number) {
-    if (this.SoduData.blankEditBoard.length > 99) {
-      return this.SoduData.blankEditBoard[index][num]
+    if (this.SudoData.blankEditBoard.length > 99) {
+      return this.SudoData.blankEditBoard[index][num]
     } else {
       return false
     }
   }
 
   seeIfShowSmallBtn() {
-    if (this.SoduData.blankEditBoard.length > 99 && this.SoduShow.playNumber !== null) {
-      return this.SoduData.blankEditBoard[this.SoduShow.playNumber][0]
+    if (this.SudoData.blankEditBoard.length > 99 && this.SudoShow.playNumber !== null) {
+      return this.SudoData.blankEditBoard[this.SudoShow.playNumber][0]
     } else {
       return false
     }
   }
 
-  creatThird(i: number, j: number, soduArr: Array<number>) {
+  creatThird(i: number, j: number, sudoArr: Array<number>) {
     // 为对角线上的三个三宫格随机生成。
     const sortedNumArr = this.numArr.slice().sort(function () {
       return Math.random() > 0.5 ? -1 : 1
@@ -241,7 +241,7 @@ export class SoduService {
       centerNum + 9, centerNum + 10, centerNum + 11
     ]
     for (let a = 0; a < 9; a++) {
-      soduArr[thIndexArr[a]] = sortedNumArr[a]
+      sudoArr[thIndexArr[a]] = sortedNumArr[a]
     }
   }
 
@@ -353,23 +353,23 @@ export class SoduService {
       centerNum + 9, centerNum + 10, centerNum + 11
     ]
     const arr = this.getConnect(this.getConnect(xIndexArr, yIndexArr), thIndexArr)
-    this.SoduShow.tipNumberIndexes = arr
+    this.SudoShow.tipNumberIndexes = arr
     // console.log(arr)
   }
   checkSomeNumbers(num: number) {
-    this.SoduShow.playNumber = null
+    this.SudoShow.playNumber = null
     const arr = []
-    for (let a = 0; a < this.SoduData.soduPlayArr.length; a++) {
-      if (this.SoduData.soduPlayArr[a] === num) {
+    for (let a = 0; a < this.SudoData.sudoPlayArr.length; a++) {
+      if (this.SudoData.sudoPlayArr[a] === num) {
         arr.push(a)
       }
     }
-    this.SoduShow.tipNumberIndexes = arr
+    this.SudoShow.tipNumberIndexes = arr
   }
   checkIfNumbersFull(): void {
     let count = 0
-    for (let a = 0; a < this.SoduData.soduPlayArr.length; a++) {
-      if (this.SoduData.soduPlayArr[a] > 0) {
+    for (let a = 0; a < this.SudoData.sudoPlayArr.length; a++) {
+      if (this.SudoData.sudoPlayArr[a] > 0) {
         count++
       }
     }
@@ -378,12 +378,12 @@ export class SoduService {
     }
   }
   showErrors() {
-    // console.log('errorArr: ' + this.SoduData.errorArr)
+    // console.log('errorArr: ' + this.SudoData.errorArr)
   }
   checkErrors() {
-    this.SoduData.errorArr = []
-    for (let a = 0; a < this.SoduData.soduPlayArr.length; a++) {
-      if (this.SoduData.soduPlayArr[a] > 0) {
+    this.SudoData.errorArr = []
+    for (let a = 0; a < this.SudoData.sudoPlayArr.length; a++) {
+      if (this.SudoData.sudoPlayArr[a] > 0) {
         this.checkCell(a)
       }
     }
@@ -396,15 +396,15 @@ export class SoduService {
     const XArr = []
     for (let a = 1; a <= 9; a++) {
       const xIndex = i * 10 + a
-      if (this.SoduData.soduPlayArr[xIndex] && xIndex !== index) {
-        XArr.push(this.SoduData.soduPlayArr[xIndex])
+      if (this.SudoData.sudoPlayArr[xIndex] && xIndex !== index) {
+        XArr.push(this.SudoData.sudoPlayArr[xIndex])
       }
     }
     const YArr = []
     for (let b = 1; b <= 9; b++) {
       const yIndex = b * 10 + j
-      if (this.SoduData.soduPlayArr[yIndex] && yIndex !== index) {
-        YArr.push(this.SoduData.soduPlayArr[yIndex])
+      if (this.SudoData.sudoPlayArr[yIndex] && yIndex !== index) {
+        YArr.push(this.SudoData.sudoPlayArr[yIndex])
       }
     }
     const thArr = []
@@ -416,38 +416,38 @@ export class SoduService {
     ]
     for (let c = 0; c < 9; c++) {
       const thIndex = thIndexArr[c]
-      if (this.SoduData.soduPlayArr[thIndex] && thIndex !== index) {
-        thArr.push(this.SoduData.soduPlayArr[thIndex])
+      if (this.SudoData.sudoPlayArr[thIndex] && thIndex !== index) {
+        thArr.push(this.SudoData.sudoPlayArr[thIndex])
       }
     }
     const arr = this.getConnect(this.getConnect(XArr, YArr), thArr)
-    const val = this.SoduData.soduPlayArr[index]
+    const val = this.SudoData.sudoPlayArr[index]
     // console.log('XArr: ' + XArr)
     // console.log('YArr: ' + YArr)
     // console.log('thArr: ' + thArr)
     // console.log('arr: ' + arr)
     // console.log('val: ' + val)
-    if (arr.indexOf(val) > -1 && this.SoduData.blankArr.indexOf(index) > -1) {
-      this.SoduData.errorArr.push(index)
+    if (arr.indexOf(val) > -1 && this.SudoData.blankArr.indexOf(index) > -1) {
+      this.SudoData.errorArr.push(index)
     }
   }
   // 当输入完整时，检测结果
   checkResult() {
-    if (this.SoduData.errorArr.length === 0) {
-      this.SoduShow.winStar = this.SoduData.star
-      const thisSoduStar = this.SoduStars.find(s => s.mode === this.SoduData.nowMode)
-      thisSoduStar.starNum += this.SoduShow.winStar
-      thisSoduStar.totalTime += this.SoduData.time
-      this.SoduData.mode[this.SoduData.nowMode] += 1
-      console.log(this.SoduData.mode[this.SoduData.nowMode])
+    if (this.SudoData.errorArr.length === 0) {
+      this.SudoShow.winStar = this.SudoData.star
+      const thisSudoStar = this.SudoStars.find(s => s.mode === this.SudoData.nowMode)
+      thisSudoStar.starNum += this.SudoShow.winStar
+      thisSudoStar.totalTime += this.SudoData.time
+      this.SudoData.mode[this.SudoData.nowMode] += 1
+      console.log(this.SudoData.mode[this.SudoData.nowMode])
       this.pauseShowTime()
-      this.SoduData.time = 0
-      this.SoduData.errorArr = []
-      this.SoduData.star = this.STAR_MAX
-      this.SoduShow.playNumber = null
-      this.SoduShow.tipNumberIndexes = []
-      this.SoduData.soduArr = []
-      this.SoduShow.nowGameWin = true
+      this.SudoData.time = 0
+      this.SudoData.errorArr = []
+      this.SudoData.star = this.STAR_MAX
+      this.SudoShow.playNumber = null
+      this.SudoShow.tipNumberIndexes = []
+      this.SudoData.sudoArr = []
+      this.SudoShow.nowGameWin = true
       this.saveData()
       this.saveStars()
       // this.simpleAlert('Tips', 'Congratulations! You win!')
@@ -458,37 +458,37 @@ export class SoduService {
 
   // 存档
   saveData(): void {
-    if (this.SoduData.soduPlayArr.length > 98) {
-      this.storage.set('sd-data', this.SoduData)
+    if (this.SudoData.sudoPlayArr.length > 98) {
+      this.storage.set('sd-data', this.SudoData)
     }
   }
 
   createNewGame(hardMode: number) {
     console.log(hardMode + ' game start!');
     this.pauseShowTime()
-    this.SoduData.nowMode = hardMode
-    this.SoduData.time = 0
-    this.SoduShow.nowGameWin = false
-    this.SoduData.errorArr = []
-    this.SoduData.star = this.STAR_MAX
-    this.SoduShow.playNumber = null
-    this.SoduShow.tipNumberIndexes = []
+    this.SudoData.nowMode = hardMode
+    this.SudoData.time = 0
+    this.SudoShow.nowGameWin = false
+    this.SudoData.errorArr = []
+    this.SudoData.star = this.STAR_MAX
+    this.SudoShow.playNumber = null
+    this.SudoShow.tipNumberIndexes = []
     this.createBlankEditBoard()
-    this.createSoduArr()
-    this.createBlankArr(this.SoduData.mode[hardMode], hardMode)
-    this.createSoduPlayArr()
+    this.createSudoArr()
+    this.createBlankArr(this.SudoData.mode[hardMode], hardMode)
+    this.createSudoPlayArr()
     this.saveData()
     this.startShowTime()
-    // console.log(this.SoduData)
+    // console.log(this.SudoData)
   }
 
   // 获取星星star
   async getStars() {
     return this.storage.get('sd-stars').then((stars) => {
       if (stars) {
-        this.SoduStars = stars
+        this.SudoStars = stars
       } else {
-        this.SoduStars = [
+        this.SudoStars = [
           {
             mode: 0,
             starNum: 0,
@@ -506,13 +506,13 @@ export class SoduService {
           }
         ]
       }
-      // console.log('this.SoduStars[0]: ' + this.SoduStars[0].starNum)
+      // console.log('this.SudoStars[0]: ' + this.SudoStars[0].starNum)
       this.saveStars()
     })
   }
 
   saveStars() {
-    this.storage.set('sd-stars', this.SoduStars)
+    this.storage.set('sd-stars', this.SudoStars)
   }
 
   // 弹窗类

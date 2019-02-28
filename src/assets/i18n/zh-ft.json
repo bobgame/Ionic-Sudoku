@@ -1,7 +1,7 @@
 {
   "common": {
     "home": "首页",
-    "soduku": "数独",
+    "sudoku": "数独",
     "about": "关于",
     "menu": "菜单",
     "back": "返回",
@@ -20,9 +20,9 @@
   },
   "home": {
     "title": "清新数独",
-    "titleSodu": "首页-数独"
+    "titleSudo": "首页-数独"
   },
-  "sodu": {
+  "sudo": {
     "star": "星星",
     "pausing": "暂停中...",
     "ownStars": "拥有的星星"

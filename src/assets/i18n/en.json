@@ -1,7 +1,7 @@
 {
   "common": {
     "home": "Home",
-    "soduku": "Soduku",
+    "sudoku": "Sudoku",
     "about": "About",
     "menu": "Menu",
     "back": "Back",
@@ -19,10 +19,10 @@
     "got": "Got"
   },
   "home": {
-    "title": "Fresh Soduku",
-    "titleSodu": "Home-Soduku"
+    "title": "Fresh Sudoku",
+    "titleSudo": "Home-Sudoku"
   },
-  "sodu": {
+  "sudo": {
     "star": "star",
     "pausing": "Pausing...",
     "ownStars": "Own stars"

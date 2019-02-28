@@ -1,5 +1,5 @@
-# Fresh Soduku（清新数独）
-Fresh Soduku use ionic4&Angular by Bob Liu
+# Fresh Sudoku（清新数独）
+Fresh Sudoku use ionic4&Angular by Bob Liu
 
 Bob Liu 用ionic4&Angular做的清新数独
 

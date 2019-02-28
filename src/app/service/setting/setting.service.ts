@@ -17,7 +17,7 @@ export class SettingService {
     return this.storage.get('sd-setting').then((setting) => {
       const settingDefault = {
         Lang: '',
-        sodu: {
+        sudo: {
         }
       }
       if (setting) {

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SoduService } from './sodu.service';
+import { SudoService } from './sudo.service';
 
-describe('SoduService', () => {
+describe('SudoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SoduService = TestBed.get(SoduService);
+    const service: SudoService = TestBed.get(SudoService);
     expect(service).toBeTruthy();
   });
 });

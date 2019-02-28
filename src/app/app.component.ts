@@ -4,7 +4,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Events, MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { SoduService } from './service/sodu/sodu.service';
+import { SudoService } from './service/sudo/sudo.service';
 import { LanService } from './service/lan/lan.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { LanService } from './service/lan/lan.service';
 })
 export class AppComponent implements OnInit {
 
-  soduPlay = {
+  sudoPlay = {
     playId: 1,
   }
   LanData: any
@@ -27,12 +27,12 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
-    private soduService: SoduService,
+    private sudoService: SudoService,
     private lanService: LanService,
   ) {
     this.initializeApp()
-    this.soduPlay = this.soduService.SoduPlay
-    this.soduPlay.playId = Math.floor(Math.random() * 1000)
+    this.sudoPlay = this.sudoService.SudoPlay
+    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
     // console.log('app component')
     lanService.getLanguage().then(() => {
       lanService.getLanJson()

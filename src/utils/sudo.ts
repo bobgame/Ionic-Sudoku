@@ -1,26 +1,26 @@
-export function CreateSoduArr() {
-  let soduArr = []
+export function CreateSudoArr() {
+  let sudoArr = []
   const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  createSodu()
-  function createSodu() {
+  createSudo()
+  function createSudo() {
     try {
-      soduArr = []
+      sudoArr = []
       creatThird(2, 8)
       creatThird(5, 5)
       creatThird(8, 2)
-      // console.log(soduArr)
+      // console.log(sudoArr)
       for (let i = 1; i <= 9; i++) {
         for (let j = 1; j <= 9; j++) {
-          if (soduArr[i * 10 + j]) {
+          if (sudoArr[i * 10 + j]) {
             continue
           }
-          const XArr = getXArr(i, soduArr)
-          const YArr = getYArr(j, soduArr)
-          const thArr = getThArr(i, j, soduArr)
+          const XArr = getXArr(i, sudoArr)
+          const YArr = getYArr(j, sudoArr)
+          const thArr = getThArr(i, j, sudoArr)
           const arr = getConnect(getConnect(XArr, YArr), thArr)
           const ableArr = arrMinus(numArr, arr)
           if (ableArr.length === 0) {
-            createSodu()
+            createSudo()
             return
           }
 
@@ -30,17 +30,17 @@ export function CreateSoduArr() {
             item = ableArr[getRandom(ableArr.length) - 1]
           } while ((arr.indexOf(item) > -1))
 
-          soduArr[i * 10 + j] = item
+          sudoArr[i * 10 + j] = item
         }
       }
-      return soduArr
+      return sudoArr
     } catch (e) {
       // 如果因为超出浏览器的栈限制出错，就重新运行。
-      createSodu()
+      createSudo()
     }
   }
   function reCreate() {
-    createSodu()
+    createSudo()
   }
   function creatThird(i: number, j: number) {
     // 为对角线上的三个三宫格随机生成。
@@ -59,7 +59,7 @@ export function CreateSoduArr() {
       centerNum + 9, centerNum + 10, centerNum + 11
     ]
     for (let a = 0; a < 9; a++) {
-      soduArr[thIndexArr[a]] = sortedNumArr[a]
+      sudoArr[thIndexArr[a]] = sortedNumArr[a]
     }
   }
 

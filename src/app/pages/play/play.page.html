@@ -1,4 +1,4 @@
-<ion-header [ngClass]="{'show': soduShow.soduReady}">
+<ion-header [ngClass]="{'show': sudoShow.sudoReady}">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="container" [ngClass]="{'show': soduShow.soduReady}">
+<div class="container" [ngClass]="{'show': sudoShow.sudoReady}">
   <div class="game-header">
     <ion-row>
       <ion-col size="4" text-left>
@@ -27,13 +27,13 @@
       <ion-col class="star-con" size="4">
         <ion-icon class="star-item" src="assets/svg/star-full.svg"
                   *ngFor="let star of starArr"
-                  [ngClass]="{'hide': star > soduData.star}"></ion-icon>
+                  [ngClass]="{'hide': star > sudoData.star}"></ion-icon>
         <ion-icon class="star-item" src="assets/svg/star-empty.svg"
                   *ngFor="let star of starArr"
-                  [ngClass]="{'hide': star <= soduData.star}"></ion-icon>
+                  [ngClass]="{'hide': star <= sudoData.star}"></ion-icon>
       </ion-col>
       <ion-col size="4" text-right>
-        {{soduShow.showTime}}
+        {{sudoShow.showTime}}
       </ion-col>
     </ion-row>
   </div>
@@ -44,18 +44,18 @@
          [ngClass]="{'line-b-s': s % 3 != 0, 'line-b-m': s % 3 == 0 && s != 9}">
       <div *ngFor="let h of numArr"
            class="number-item"
-           [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9, 'num-tip-bg': soduShow.tipNumberIndexes.indexOf(s * 10 + h) > -1}">
+           [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9, 'num-tip-bg': sudoShow.tipNumberIndexes.indexOf(s * 10 + h) > -1}">
         <div class="num" *ngIf="seeIfBlank(s * 10 + h)"
-             (click)="checkSomeNumbers(soduData.soduArr[s * 10 + h])">
-          {{soduData.soduPlayArr[s * 10 + h]}}
+             (click)="checkSomeNumbers(sudoData.sudoArr[s * 10 + h])">
+          {{sudoData.sudoPlayArr[s * 10 + h]}}
         </div>
         <div class="num num-empty"
              *ngIf="!seeIfBlank(s * 10 + h)"
-             [ngClass]="{'active': soduShow.playNumber == s * 10 + h, 'error': soduData.errorArr.indexOf(s * 10 + h) > -1}"
+             [ngClass]="{'active': sudoShow.playNumber == s * 10 + h, 'error': sudoData.errorArr.indexOf(s * 10 + h) > -1}"
              (press)="numEmptyPress(s * 10 + h)"
              (click)="setShowPlayNumber(s * 10 + h)">
           <div *ngIf="!seeIfBlankBoard(s * 10 + h)">
-            {{soduData.soduPlayArr[s * 10 + h]}}
+            {{sudoData.sudoPlayArr[s * 10 + h]}}
           </div>
           <div class="small-con" *ngIf="seeIfBlankBoard(s * 10 + h)">
             <div class="small-number" *ngFor="let n of numArr"
@@ -72,12 +72,12 @@
     <div class="tools-btns" text-center>
       <ion-button class="tool-btn"
                   (click)="clearPlayNumber()"
-                  [disabled]="soduShow.playNumber == null">
+                  [disabled]="sudoShow.playNumber == null">
         <ion-icon src="assets/svg/clear.svg" icon-only></ion-icon>
       </ion-button>
       <ion-button class="tool-btn small-btn"
                   (click)="setThisEditBoardStatus()"
-                  [disabled]="soduShow.playNumber == null">
+                  [disabled]="sudoShow.playNumber == null">
         <ion-icon src="assets/svg/small-no.svg"
                   [ngClass]="{'active': !seeIfShowSmallBtn()}" icon-only></ion-icon>
         <ion-icon src="assets/svg/small-yes.svg"
@@ -88,7 +88,7 @@
       <ion-button class="num-btn"
                   *ngFor="let number of numArr"
                   (click)="clickPlayNumber(number)"
-                  [disabled]="soduShow.playNumber == null">
+                  [disabled]="sudoShow.playNumber == null">
         {{number}}
       </ion-button>
     </div>
@@ -99,12 +99,12 @@
   </div>
   <div class="pause-mask" [ngClass]="{'show': playBtnStatus}" text-center>
     <h2 class="title">
-      {{LanData?.sodu.pausing}}
+      {{LanData?.sudo.pausing}}
     </h2>
     <div class="sub-title" text-left>
-      {{LanData?.sodu.ownStars}}
+      {{LanData?.sudo.ownStars}}
     </div>
-    <ion-card *ngFor="let starItem of soduStars">
+    <ion-card *ngFor="let starItem of sudoStars">
       <ion-row>
         <ion-col text-left class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-col>
         <ion-col text-right class="star-num">{{starItem.starNum}}
@@ -117,12 +117,12 @@
       {{LanData?.common.continue}}
     </ion-button>
   </div>
-  <div class="win-mask" [ngClass]="{'show': soduShow.nowGameWin}">
+  <div class="win-mask" [ngClass]="{'show': sudoShow.nowGameWin}">
     <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
     <h1 class="sub-title" text-center>{{LanData?.common.got}}
       <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">
       </ion-icon>
-      x {{soduShow.winStar}}
+      x {{sudoShow.winStar}}
     </h1>
     <div class="btn-content" text-center>
       <ion-button text-center (click)="newGame()">

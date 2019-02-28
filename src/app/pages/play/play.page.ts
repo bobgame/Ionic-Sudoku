@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SoduService } from '../../service/sodu/sodu.service';
+import { SudoService } from '../../service/sudo/sudo.service';
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
-import { SoduStar } from '../../datas/data-types';
+import { SudoStar } from '../../datas/data-types';
 import { Storage } from '@ionic/storage';
 import { LanService } from '../../service/lan/lan.service';
 import { Events } from '@ionic/angular';
@@ -18,48 +18,48 @@ export class PlayPage implements OnInit, OnDestroy {
 
   numArr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   starArr: Array<number> = []
-  soduData = {
-    soduArr: [],
+  sudoData = {
+    sudoArr: [],
     blankArr: [],
     blankEditBoard: [],
-    soduPlayArr: [],
+    sudoPlayArr: [],
     errorArr: [],
     time: 0,
     star: 5,
     nowMode: 0,
     mode: [1, 1, 1]
   }
-  soduShow = {
-    soduReady: false,
+  sudoShow = {
+    sudoReady: false,
     playNumber: null,
     tipNumberIndexes: [],
     showTime: '00:00',
     pauseTime: false,
   }
-  soduPlay = {
+  sudoPlay = {
     playId: 999,
   }
-  soduStars: SoduStar[]
+  sudoStars: SudoStar[]
   showTimeInterval: any
-  checksoduReadyInterval: any
+  checksudoReadyInterval: any
   playBtnStatus = false
   LanData
   hardModeName
 
   constructor(
-    private soduService: SoduService,
+    private sudoService: SudoService,
     private router: Router,
     private storage: Storage,
     private lanService: LanService,
     private events: Events,
   ) {
-    this.starArr = this.soduService.starArr
-    this.soduPlay = this.soduService.SoduPlay
+    this.starArr = this.sudoService.starArr
+    this.sudoPlay = this.sudoService.SudoPlay
     this.endSubscription = this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe(_ => {
-      console.log('End Subscription, Time: ' + this.soduShow.showTime)
-      this.soduPlay.playId = Math.floor(Math.random() * 1000)
+      console.log('End Subscription, Time: ' + this.sudoShow.showTime)
+      this.sudoPlay.playId = Math.floor(Math.random() * 1000)
       this.pauseShowTime()
     })
     events.subscribe('lan:dataChange', (data) => {
@@ -70,16 +70,16 @@ export class PlayPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getStars()
-    this.initSodu()
+    this.initSudo()
   }
   ngOnDestroy() {
     this.endSubscription.unsubscribe() // 不要忘记处理手动订阅
   }
 
-  initSodu() {
-    this.soduService.InitSodu().then(() => {
-      this.soduData = this.soduService.SoduData
-      this.soduShow = this.soduService.SoduShow
+  initSudo() {
+    this.sudoService.InitSudo().then(() => {
+      this.sudoData = this.sudoService.SudoData
+      this.sudoShow = this.sudoService.SudoShow
       this.lanService.getLanguage().then(() => {
         if (this.lanService.LanData) {
           this.LanData = this.lanService.LanData
@@ -96,17 +96,17 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   newGame(): void {
-    this.soduService.newGame(this.LanData.common)
+    this.sudoService.newGame(this.LanData.common)
   }
 
   nextLevelGame(): void {
-    this.soduService.createNewGame(this.soduData.nowMode)
+    this.sudoService.createNewGame(this.sudoData.nowMode)
   }
 
   getModeName() {
-    if (this.hardModeName && this.soduData) {
-      const nowModeName = this.hardModeName[this.soduData.nowMode]
-      const nowModeLevel = this.soduData.mode[this.soduData.nowMode]
+    if (this.hardModeName && this.sudoData) {
+      const nowModeName = this.hardModeName[this.sudoData.nowMode]
+      const nowModeLevel = this.sudoData.mode[this.sudoData.nowMode]
       return `${nowModeName} ${nowModeLevel}`
     }
     return ''
@@ -114,35 +114,35 @@ export class PlayPage implements OnInit, OnDestroy {
   getModeNameWithIndex(index: number) {
     if (this.hardModeName) {
       const thisModeName = this.hardModeName[index]
-      const thisModeLevel = this.soduData.mode[index]
+      const thisModeLevel = this.sudoData.mode[index]
       return `${thisModeName} Lv${thisModeLevel}`
     }
     return ''
   }
 
   seeIfBlank(index: number) {
-    return this.soduService.seeIfBlank(index)
+    return this.sudoService.seeIfBlank(index)
   }
 
   seeIfBlankBoard(index: number) {
-    return this.soduService.seeIfBlankBoard(index)
+    return this.sudoService.seeIfBlankBoard(index)
   }
 
   setThisEditBoardStatus() {
-    return this.soduService.setThisEditBoardStatus()
+    return this.sudoService.setThisEditBoardStatus()
   }
 
   seeIfBlankBoardNumber(index: number, num: number) {
-    return this.soduService.seeIfBlankBoardNumber(index, num)
+    return this.sudoService.seeIfBlankBoardNumber(index, num)
   }
 
   seeIfShowSmallBtn() {
-    return this.soduService.seeIfShowSmallBtn()
+    return this.sudoService.seeIfShowSmallBtn()
   }
 
   setShowPlayNumber(index: number): void {
-    console.log(this.soduData.soduArr[index])
-    this.soduService.setShowPlayNumber(index)
+    console.log(this.sudoData.sudoArr[index])
+    this.sudoService.setShowPlayNumber(index)
   }
 
   numEmptyPress(index: number): void {
@@ -151,15 +151,15 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   clearPlayNumber(): void {
-    this.soduService.clearPlayNumber()
+    this.sudoService.clearPlayNumber()
   }
 
   clickPlayNumber(num: number): void {
-    this.soduService.clickPlayNumber(num)
+    this.sudoService.clickPlayNumber(num)
   }
 
   checkSomeNumbers(num: number) {
-    this.soduService.checkSomeNumbers(num)
+    this.sudoService.checkSomeNumbers(num)
   }
 
   clickPlayOrPauseBtn() {
@@ -172,28 +172,28 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   getStars() {
-    this.soduService.getStars().then(() => {
-      this.soduStars = this.soduService.SoduStars
-      // console.log(`this.soduStars: ${this.soduStars}`)
+    this.sudoService.getStars().then(() => {
+      this.sudoStars = this.sudoService.SudoStars
+      // console.log(`this.sudoStars: ${this.sudoStars}`)
     })
   }
 
   saveStars() {
-    this.soduService.saveStars()
+    this.sudoService.saveStars()
   }
 
   testStar() {
-    if (this.soduStars) {
-      return this.soduStars[0].starNum
+    if (this.sudoStars) {
+      return this.sudoStars[0].starNum
     }
     return 0
   }
 
   startShowTime() {
-    this.soduService.startShowTime()
+    this.sudoService.startShowTime()
   }
 
   pauseShowTime() {
-    this.soduService.pauseShowTime()
+    this.sudoService.pauseShowTime()
   }
 }

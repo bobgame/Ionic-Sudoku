@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoSoduPage } from './go-sodu.page';
+import { GoSudoPage } from './go-sudo.page';
 
-describe('GoSoduPage', () => {
-  let component: GoSoduPage;
-  let fixture: ComponentFixture<GoSoduPage>;
+describe('GoSudoPage', () => {
+  let component: GoSudoPage;
+  let fixture: ComponentFixture<GoSudoPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoSoduPage ],
+      declarations: [GoSudoPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GoSoduPage);
+    fixture = TestBed.createComponent(GoSudoPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

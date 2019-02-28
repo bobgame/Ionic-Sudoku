@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SoduService } from '../../../service/sodu/sodu.service';
+import { SudoService } from '../../../service/sudo/sudo.service';
 import { LanService } from '../../../service/lan/lan.service';
 import { Events } from '@ionic/angular';
 
@@ -10,17 +10,17 @@ import { Events } from '@ionic/angular';
 })
 export class MainPage implements OnInit {
 
-  soduPlay = {
+  sudoPlay = {
     playId: 123,
   }
   LanData
   constructor(
-    private soduService: SoduService,
+    private sudoService: SudoService,
     private lanService: LanService,
     private events: Events,
   ) {
-    this.soduPlay.playId = Math.floor(Math.random() * 1000)
-    this.soduPlay = this.soduService.SoduPlay
+    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
+    this.sudoPlay = this.sudoService.SudoPlay
 
     lanService.getLanguage().then(() => {
       if (this.lanService.LanData) {
@@ -40,7 +40,7 @@ export class MainPage implements OnInit {
 
   // for test used
   clearData() {
-    this.soduService.clearData()
+    this.sudoService.clearData()
   }
 
 }

@@ -60,7 +60,7 @@ export class LanService {
       // this.Lang = 'en'
       this.settingService.settings.Lang = this.Lang
       // console.log('this.Lang: ' + this.Lang)
-      // console.log('this.settings.sodu: ' + this.settings.Lang)
+      // console.log('this.settings.sudo: ' + this.settings.Lang)
       this.settingService.saveSettingDatas()
     })
   }

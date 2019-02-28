@@ -18,7 +18,7 @@ import { HomePage } from './home.page';
         children: [
           { path: '', loadChildren: './main/main.module#MainPageModule' },
           { path: 'main', loadChildren: './main/main.module#MainPageModule' },
-          { path: 'go-sodu', loadChildren: './go-sodu/go-sodu.module#GoSoduPageModule' },
+          { path: 'go-sudo', loadChildren: './go-sudo/go-sudo.module#GoSudoPageModule' },
         ]
       },
     ])

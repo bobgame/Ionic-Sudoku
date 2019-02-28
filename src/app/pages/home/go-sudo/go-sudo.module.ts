@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GoSoduPage } from './go-sodu.page';
+import { GoSudoPage } from './go-sudo.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: GoSoduPage
+    component: GoSudoPage
   }
 ];
 
@@ -21,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [GoSoduPage]
+  declarations: [GoSudoPage]
 })
-export class GoSoduPageModule {}
+export class GoSudoPageModule { }

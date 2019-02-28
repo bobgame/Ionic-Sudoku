@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import 'hammerjs';
 
-import { SoduService } from './service/sodu/sodu.service';
+import { SudoService } from './service/sudo/sudo.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { SoduService } from './service/sodu/sodu.service';
     BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot({
-      name: '__sodudb',
+      name: '__sudodb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
     AppRoutingModule,
@@ -34,7 +34,7 @@ import { SoduService } from './service/sodu/sodu.service';
   providers: [
     StatusBar,
     SplashScreen,
-    SoduService,
+    SudoService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],

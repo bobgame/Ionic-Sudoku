@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SoduService } from '../../service/sodu/sodu.service';
+import { SudoService } from '../../service/sudo/sudo.service';
 
 @Component({
   selector: 'app-about',
@@ -8,11 +8,11 @@ import { SoduService } from '../../service/sodu/sodu.service';
 })
 export class AboutPage implements OnInit {
   constructor(
-    private soduService: SoduService,
+    private sudoService: SudoService,
   ) { }
 
   ngOnInit() {
-    // this.soduService.pauseShowTime()
+    // this.sudoService.pauseShowTime()
   }
 
 }

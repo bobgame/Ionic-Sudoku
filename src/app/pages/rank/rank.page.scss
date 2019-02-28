@@ -1,0 +1,39 @@
+.rank-con {
+  width: 100%;
+
+  .rank-item {
+    width: 100%;
+    height: 6vh;
+    margin-bottom: 1.2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    .rank-left {
+      text-align: left;
+      padding-left: 2vw;
+
+      .rank-index {
+        width: 24px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+    }
+
+    .rank-right {
+      text-align: right;
+      padding-right: 2vw;
+
+      .rank-star-num {
+        color: var(--ion-color-services);
+      }
+
+      .rank-star-icon {
+        margin-left: 5px;
+        color: var(--ion-color-services);
+      }
+    }
+  }
+}
