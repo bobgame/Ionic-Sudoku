@@ -5,9 +5,22 @@
     </ion-buttons>
     <ion-title>{{LanData?.home.title}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button text-center (click)="newGame()">
+      <!-- <ion-button text-center (click)="newGame()">
         <ion-icon name="add"></ion-icon>
-      </ion-button>
+      </ion-button> -->
+      <ion-fab class="more-btn">
+        <ion-fab-button>
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="start">
+          <ion-fab-button>
+            <ion-icon name="add" (click)="newGame()"></ion-icon>
+          </ion-fab-button>
+          <ion-fab-button routerLink="/rank">
+            <ion-icon name="podium"></ion-icon>
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
       <ion-button text-center *ngIf="!playBtnStatus" (click)="clickPlayOrPauseBtn()">
         <ion-icon name="pause"></ion-icon>
       </ion-button>
@@ -104,7 +117,7 @@
     <div class="sub-title" text-left>
       {{LanData?.sudo.ownStars}}
     </div>
-    <ion-card *ngFor="let starItem of sudoStars">
+    <ion-card *ngFor="let starItem of sudoData.allStars">
       <ion-row>
         <ion-col text-left class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-col>
         <ion-col text-right class="star-num">{{starItem.starNum}}

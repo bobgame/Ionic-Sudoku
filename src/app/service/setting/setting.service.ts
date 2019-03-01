@@ -18,6 +18,8 @@ export class SettingService {
       const settingDefault = {
         Lang: '',
         sudo: {
+          userid: '',
+          username: ''
         }
       }
       if (setting) {

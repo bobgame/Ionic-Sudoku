@@ -3,7 +3,6 @@ import { SudoService } from '../../service/sudo/sudo.service';
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router, NavigationEnd } from '@angular/router';
-import { SudoStar } from '../../datas/data-types';
 import { Storage } from '@ionic/storage';
 import { LanService } from '../../service/lan/lan.service';
 import { Events } from '@ionic/angular';
@@ -27,7 +26,24 @@ export class PlayPage implements OnInit, OnDestroy {
     time: 0,
     star: 5,
     nowMode: 0,
-    mode: [1, 1, 1]
+    mode: [1, 1, 1],
+    allStars: [
+      {
+        mode: 0,
+        starNum: 0,
+        totalTime: 0,
+      },
+      {
+        mode: 1,
+        starNum: 0,
+        totalTime: 0,
+      },
+      {
+        mode: 2,
+        starNum: 0,
+        totalTime: 0,
+      }
+    ]
   }
   sudoShow = {
     sudoReady: false,
@@ -39,7 +55,6 @@ export class PlayPage implements OnInit, OnDestroy {
   sudoPlay = {
     playId: 999,
   }
-  sudoStars: SudoStar[]
   showTimeInterval: any
   checksudoReadyInterval: any
   playBtnStatus = false
@@ -55,6 +70,7 @@ export class PlayPage implements OnInit, OnDestroy {
   ) {
     this.starArr = this.sudoService.starArr
     this.sudoPlay = this.sudoService.SudoPlay
+
     this.endSubscription = this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe(_ => {
@@ -62,15 +78,15 @@ export class PlayPage implements OnInit, OnDestroy {
       this.sudoPlay.playId = Math.floor(Math.random() * 1000)
       this.pauseShowTime()
     })
-    events.subscribe('lan:dataChange', (data) => {
+
+    this.initSudo()
+    this.events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
       this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
     })
   }
 
   ngOnInit() {
-    this.getStars()
-    this.initSudo()
   }
   ngOnDestroy() {
     this.endSubscription.unsubscribe() // 不要忘记处理手动订阅
@@ -80,6 +96,8 @@ export class PlayPage implements OnInit, OnDestroy {
     this.sudoService.InitSudo().then(() => {
       this.sudoData = this.sudoService.SudoData
       this.sudoShow = this.sudoService.SudoShow
+      console.log(this.sudoShow.sudoReady)
+      console.log(this.sudoData)
       this.lanService.getLanguage().then(() => {
         if (this.lanService.LanData) {
           this.LanData = this.lanService.LanData
@@ -91,6 +109,7 @@ export class PlayPage implements OnInit, OnDestroy {
               this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
             })
         }
+        console.log(this.sudoShow.sudoReady)
       })
     })
   }
@@ -169,24 +188,6 @@ export class PlayPage implements OnInit, OnDestroy {
       this.pauseShowTime()
     }
     this.playBtnStatus = !this.playBtnStatus
-  }
-
-  getStars() {
-    this.sudoService.getStars().then(() => {
-      this.sudoStars = this.sudoService.SudoStars
-      // console.log(`this.sudoStars: ${this.sudoStars}`)
-    })
-  }
-
-  saveStars() {
-    this.sudoService.saveStars()
-  }
-
-  testStar() {
-    if (this.sudoStars) {
-      return this.sudoStars[0].starNum
-    }
-    return 0
   }
 
   startShowTime() {

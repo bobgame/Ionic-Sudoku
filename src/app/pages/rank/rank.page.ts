@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { RankService } from '../../service/rank/rank.service';
+import { SettingService } from '../../service/setting/setting.service';
+import { LanService } from '../../service/lan/lan.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-rank',
@@ -8,22 +11,88 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RankPage implements OnInit {
 
-  rankData: any
+  rankData = {
+    'starterStar': [],
+    'normalStar': [],
+    'masterStar': [],
+  }
+  showDataName = 'starterStar'
+  rankShow = {
+    nav: '',
+    ready: false,
+    dataReady: false
+  }
+  settings = {
+    Lang: '',
+    sudo: {
+      userid: '',
+      username: ''
+    }
+  }
+  LanData
 
   constructor(
-    private http: HttpClient,
-  ) { }
-
-  ngOnInit() {
-    this.getRankData()
+    private rankService: RankService,
+    private settingService: SettingService,
+    private lanService: LanService,
+    private events: Events,
+  ) {
+    this.rankShow = this.rankService.RankShow
+    this.lanService.getLanguage().then(() => {
+      if (this.lanService.LanData) {
+        this.LanData = this.lanService.LanData
+      } else {
+        this.lanService.getLanJson()
+          .subscribe((data) => {
+            this.LanData = data
+          })
+      }
+    })
+    events.subscribe('lan:dataChange', (data) => {
+      this.LanData = data
+    })
   }
 
-  getRankData() {
-    // const urlRank = 'http://47.92.132.100:603/sdkdb/find'
-    const urlRank = 'http://localhost:603/sdkdb/find'
-    this.http.post(urlRank, '').subscribe((data) => {
-      this.rankData = data
-      console.log(data)
+  ngOnInit() {
+    this.loadSettingDatas()
+  }
+
+  getRankDatas(userid: string) {
+    this.getRankData('starterStar', userid)
+    this.getRankData('normalStar', userid)
+    this.getRankData('masterStar', userid)
+  }
+
+  getRankData(sortName: string, userid: string) {
+    this.rankService.getRankData(sortName, userid)
+      .subscribe((data) => {
+        this.rankData[sortName] = data
+        console.log(this.rankData)
+        this.rankShow.dataReady = true
+      })
+  }
+
+  createRank(name: string) {
+    this.rankService.createRank(name).subscribe((res) => {
+      this.settings.sudo.userid = res.userid
+      this.settings.sudo.username = res.username
+      this.settingService.saveSettingDatas()
+      this.getRankDatas(res.userid)
+    })
+  }
+
+  switchTab(tabName: string) {
+    this.rankShow.nav = tabName
+    this.showDataName = tabName + 'Star'
+  }
+
+  loadSettingDatas() {
+    return this.settingService.loadSettingDatas().then((data) => {
+      this.settings = this.settingService.settings
+      if (this.settings.sudo.userid !== '') {
+        this.getRankDatas(this.settings.sudo.userid)
+      }
+      this.rankShow.ready = true
     })
   }
 

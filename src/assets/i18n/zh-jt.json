@@ -16,7 +16,8 @@
     "backHome": "返回首页",
     "nextLevel": "快速开始",
     "congratulations": "恭喜！你赢了！",
-    "got": "获得"
+    "got": "获得",
+    "rankingList": "排行榜"
   },
   "home": {
     "title": "清新数独",

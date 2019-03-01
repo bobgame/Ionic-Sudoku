@@ -16,7 +16,8 @@
     "backHome": "Back Home",
     "nextLevel": "Next Level",
     "congratulations": "Congratulations! You win!",
-    "got": "Got"
+    "got": "Got",
+    "rankingList": "Ranking List"
   },
   "home": {
     "title": "Fresh Sudoku",

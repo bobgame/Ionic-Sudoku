@@ -3,21 +3,46 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Rank</ion-title>
+    <ion-title>{{LanData?.common.rankingList}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding [scrollY]="false">
-  <div class="rank-con">
-    <div class="rank-item" *ngFor="let rankItem of rankData">
-      <div class="rank-left">
-        <span class="rank-index">{{rankItem?.rankIndex}}</span>
-        <span class="rank-name">{{rankItem?.name}}</span>
+  <div class="rank-nav-container" *ngIf="settings.sudo.userid && rankShow.ready">
+    <div class="rank-nav-bar">
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'starter'}" (click)="switchTab('starter')">
+        <ion-label>{{LanData?.common.starter}}</ion-label>
       </div>
-      <div class="rank-right">
-        <span class="rank-star-num">{{rankItem?.starterStar}}</span>
-        <ion-icon src="assets/svg/star-full.svg" class="rank-star-icon" color=""></ion-icon>
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'normal'}" (click)="switchTab('normal')">
+        <ion-label>{{LanData?.common.normal}}</ion-label>
+      </div>
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'master'}" (click)="switchTab('master')">
+        <ion-label>{{LanData?.common.master}}</ion-label>
       </div>
     </div>
+
+    <div class="rank-nav-con" [ngClass]="{'show': rankShow.dataReady}" padding>
+      <div class="rank-item" *ngFor="let rankItem of rankData[showDataName]" [ngClass]="{'me': rankItem.userid == settings.sudo.userid}">
+        <div class="rank-left">
+          <span class="rank-index">{{rankItem?.rankIndex}}</span>
+          <span class="rank-name">{{rankItem?.name}}</span>
+        </div>
+        <div class="rank-right">
+          <span class="rank-star-num">{{rankItem[showDataName]}}</span>
+          <ion-icon src="assets/svg/star-full.svg" class="rank-star-icon" color=""></ion-icon>
+        </div>
+      </div>
+    </div>
+    <div class="spinner-con" *ngIf="!rankShow.dataReady">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+  </div>
+  <div class="create-rank-con" *ngIf="!settings.sudo.userid && rankShow.ready">
+    <ion-item>
+      <ion-input clearInput placeholder="Enter Input" #nameInput></ion-input>
+    </ion-item>
+    <ion-button (click)="createRank(nameInput.value)">
+      <ion-label>Create Rank</ion-label>
+    </ion-button>
   </div>
 </ion-content>

@@ -3,7 +3,6 @@ import { AlertController } from '@ionic/angular';
 import { CelShowTime } from '../../../utils/get-time';
 import { Storage } from '@ionic/storage';
 import { ActionSheetController } from '@ionic/angular';
-import { SudoStar } from 'src/app/datas/data-types';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +28,24 @@ export class SudoService {
     time: 0,
     star: this.STAR_MAX,
     nowMode: 0,
-    mode: [1, 1, 1]
+    mode: [1, 1, 1],
+    allStars: [
+      {
+        mode: 0,
+        starNum: 0,
+        totalTime: 0,
+      },
+      {
+        mode: 1,
+        starNum: 0,
+        totalTime: 0,
+      },
+      {
+        mode: 2,
+        starNum: 0,
+        totalTime: 0,
+      }
+    ]
   }
   SudoShow = {
     sudoReady: false,
@@ -43,7 +59,6 @@ export class SudoService {
   SudoPlay = {
     playId: 1,
   }
-  SudoStars: SudoStar[]
   showTimeInterval: any
 
   async InitSudo() {
@@ -53,6 +68,7 @@ export class SudoService {
           this.SudoData = data
           this.SudoShow.sudoReady = true
           this.startShowTime()
+          console.log('load datas')
         } else {
           this.SudoData = data
           this.createNewGame(this.SudoData.nowMode)
@@ -435,7 +451,7 @@ export class SudoService {
   checkResult() {
     if (this.SudoData.errorArr.length === 0) {
       this.SudoShow.winStar = this.SudoData.star
-      const thisSudoStar = this.SudoStars.find(s => s.mode === this.SudoData.nowMode)
+      const thisSudoStar = this.SudoData.allStars.find(s => s.mode === this.SudoData.nowMode)
       thisSudoStar.starNum += this.SudoShow.winStar
       thisSudoStar.totalTime += this.SudoData.time
       this.SudoData.mode[this.SudoData.nowMode] += 1
@@ -449,7 +465,6 @@ export class SudoService {
       this.SudoData.sudoArr = []
       this.SudoShow.nowGameWin = true
       this.saveData()
-      this.saveStars()
       // this.simpleAlert('Tips', 'Congratulations! You win!')
     } else {
       this.showErrors()
@@ -482,43 +497,10 @@ export class SudoService {
     // console.log(this.SudoData)
   }
 
-  // 获取星星star
-  async getStars() {
-    return this.storage.get('sd-stars').then((stars) => {
-      if (stars) {
-        this.SudoStars = stars
-      } else {
-        this.SudoStars = [
-          {
-            mode: 0,
-            starNum: 0,
-            totalTime: 0,
-          },
-          {
-            mode: 1,
-            starNum: 0,
-            totalTime: 0,
-          },
-          {
-            mode: 2,
-            starNum: 0,
-            totalTime: 0,
-          }
-        ]
-      }
-      // console.log('this.SudoStars[0]: ' + this.SudoStars[0].starNum)
-      this.saveStars()
-    })
-  }
-
-  saveStars() {
-    this.storage.set('sd-stars', this.SudoStars)
-  }
-
   // 弹窗类
   async chooseHardModePopup(common: any) {
     const actionSheet = await this.actionSheetController.create({
-      header: common.hardMode,
+      header: common.newGame,
       buttons: [{
         text: common.starter,
         // icon: 'grid',
@@ -562,6 +544,5 @@ export class SudoService {
   clearData() {
     this.storage.remove('sd-setting')
     this.storage.remove('sd-data')
-    this.storage.remove('sd-stars')
   }
 }

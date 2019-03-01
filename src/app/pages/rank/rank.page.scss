@@ -1,22 +1,56 @@
-.rank-con {
+.rank-nav-bar {
   width: 100%;
+  display: flex;
+  margin-bottom: 1.5vh;
+
+
+  .rank-nav-btn {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+
+    &.active {
+      color: var(--ion-color-primary);
+      border-bottom: 1px solid var(--ion-color-primary);
+    }
+  }
+}
+
+.rank-nav-con {
+  width: 100%;
+  opacity: 0;
+  transition: all .3s;
+  position: absolute;
+  top: 7vh;
+  left: 0;
+
+  &.show {
+    opacity: 1;
+  }
 
   .rank-item {
     width: 100%;
-    height: 6vh;
-    margin-bottom: 1.2vh;
+    height: 5.8vh;
+    margin-bottom: 1.1vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border: 1px solid #ccc;
     border-radius: 4px;
 
+    &.me {
+      border: 1px solid rgb(189, 55, 55);
+    }
+
     .rank-left {
       text-align: left;
       padding-left: 2vw;
 
       .rank-index {
-        width: 24px;
+        // width: 24px;
         margin-right: 5px;
         display: inline-block;
       }
@@ -36,4 +70,26 @@
       }
     }
   }
+}
+
+.spinner-con {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-spinner {
+  width: 16vw;
+  height: 16vw;
+}
+
+.create-rank-con {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
 }

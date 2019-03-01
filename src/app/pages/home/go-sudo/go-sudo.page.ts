@@ -25,16 +25,15 @@ export class GoSudoPage implements OnInit {
     private lanService: LanService,
     private events: Events,
   ) {
-    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
     this.sudoPlay = this.sudoService.SudoPlay
-    this.hardModeName = this.sudoService.hardModeName
+    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
 
-    lanService.getLanguage().then(() => {
-      if (lanService.LanData) {
-        this.LanData = lanService.LanData
+    this.lanService.getLanguage().then(() => {
+      if (this.lanService.LanData) {
+        this.LanData = this.lanService.LanData
         this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
       } else {
-        lanService.getLanJson()
+        this.lanService.getLanJson()
           .subscribe((data) => {
             this.LanData = data
             this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
@@ -43,13 +42,18 @@ export class GoSudoPage implements OnInit {
     })
     events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
+      this.hardModeName = [this.LanData.common.starter, this.LanData.common.normal, this.LanData.common.master]
     })
   }
 
   ngOnInit() {
     this.storage.get('sd-data').then((data) => {
       if (data) {
-        if (data.sudoArr.length > 0) { this.continueButton = true }
+        if (data.sudoArr.length > 0) {
+          this.continueButton = true
+        } else {
+          this.continueButton = false
+        }
       } else {
         this.continueButton = false
       }
@@ -57,6 +61,7 @@ export class GoSudoPage implements OnInit {
   }
 
   continueSudo() {
+    console.log(`click continue button, this play id: ${this.sudoPlay.playId}`)
     this.router.navigate([`/play/${this.sudoPlay.playId}`])
   }
 
