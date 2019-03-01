@@ -17,7 +17,7 @@ export class GoSudoPage implements OnInit {
   }
   hardModeName: string[]
   continueButton: boolean
-  LanData
+  LanData: any
   constructor(
     private sudoService: SudoService,
     private router: Router,
@@ -62,7 +62,9 @@ export class GoSudoPage implements OnInit {
 
   continueSudo() {
     console.log(`click continue button, this play id: ${this.sudoPlay.playId}`)
-    this.router.navigate([`/play/${this.sudoPlay.playId}`])
+    // this.router.navigate([`/play/${this.sudoPlay.playId}`])
+    const num = Math.floor(Math.random() * 10000)
+    this.router.navigate([`/play/${num}`])
   }
 
   goToSudo(index: number) {
