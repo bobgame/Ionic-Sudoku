@@ -52,12 +52,12 @@ export class PlayPage implements OnInit, OnDestroy {
     showTime: '00:00',
     pauseTime: false,
   }
-  sudoPlay = {
-    playId: 999,
-  }
   showTimeInterval: any
   checksudoReadyInterval: any
   playBtnStatus = false
+  goPageStatus = true
+  continueButton = false
+  toolsButtonShow = 1
   LanData
   hardModeName
 
@@ -69,15 +69,14 @@ export class PlayPage implements OnInit, OnDestroy {
     private events: Events,
   ) {
     this.starArr = this.sudoService.starArr
-    this.sudoPlay = this.sudoService.SudoPlay
 
-    this.endSubscription = this.router.events.pipe(
-      filter(e => e instanceof NavigationEnd)
-    ).subscribe(_ => {
-      console.log('End Subscription, Time: ' + this.sudoShow.showTime)
-      this.sudoPlay.playId = Math.floor(Math.random() * 1000)
-      this.pauseShowTime()
-    })
+    // this.endSubscription = this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe((event) => {
+    //   console.log('End Subscription, Time: ' + this.sudoShow.showTime, event)
+    //   this.sudoPlay.playId = Math.floor(Math.random() * 1000)
+    //   this.pauseShowTime()
+    // })
 
     this.initSudo()
     this.events.subscribe('lan:dataChange', (data) => {
@@ -87,16 +86,27 @@ export class PlayPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // this.storage.get('sd-data').then((data) => {
+    //   if (data) {
+    //     if (data.sudoArr.length > 0) {
+    //       this.continueButton = true
+    //     } else {
+    //       this.continueButton = false
+    //     }
+    //   } else {
+    //     this.continueButton = false
+    //   }
+    // })
   }
   ngOnDestroy() {
-    this.endSubscription.unsubscribe() // 不要忘记处理手动订阅
+    // this.endSubscription.unsubscribe() // 不要忘记处理手动订阅
   }
 
   initSudo() {
     this.sudoService.InitSudo().then(() => {
       this.sudoData = this.sudoService.SudoData
       this.sudoShow = this.sudoService.SudoShow
-      console.log(this.sudoShow.sudoReady)
+      if (this.sudoShow.sudoReady) { this.continueButton = true }
       console.log(this.sudoData)
       this.lanService.getLanguage().then(() => {
         if (this.lanService.LanData) {
@@ -112,6 +122,36 @@ export class PlayPage implements OnInit, OnDestroy {
         console.log(this.sudoShow.sudoReady)
       })
     })
+  }
+
+  continueSudo() {
+    this.goPageStatus = false
+    this.startShowTime()
+  }
+
+  createNewGame(index: number) {
+    this.goPageStatus = false
+    this.sudoService.createNewGame(index)
+    const continueButtonSetTimeout = setTimeout(() => {
+      this.continueButton = true
+      clearTimeout(continueButtonSetTimeout)
+    }, 1000)
+  }
+
+  outPageButtonClicked() {
+    this.pauseShowTime()
+    const goPageStatusSetTimeout = setTimeout(() => {
+      this.goPageStatus = true
+      clearTimeout(goPageStatusSetTimeout)
+    }, 300)
+  }
+
+  toolsButtonShowSwitch() {
+    if (this.toolsButtonShow < 2) {
+      this.toolsButtonShow++
+    } else {
+      this.toolsButtonShow = 1
+    }
   }
 
   newGame(): void {

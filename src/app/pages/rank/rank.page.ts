@@ -48,13 +48,14 @@ export class RankPage implements OnInit {
           })
       }
     })
-    events.subscribe('lan:dataChange', (data) => {
+    this.events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
     })
+
+    this.loadSettingDatas()
   }
 
   ngOnInit() {
-    this.loadSettingDatas()
   }
 
   getRankDatas(userid: string) {
@@ -74,6 +75,7 @@ export class RankPage implements OnInit {
 
   createRank(name: string) {
     this.rankService.createRank(name).subscribe((res) => {
+      // console.log(res)
       this.settings.sudo.userid = res.userid
       this.settings.sudo.username = res.username
       this.settingService.saveSettingDatas()

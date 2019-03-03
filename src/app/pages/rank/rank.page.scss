@@ -92,4 +92,17 @@ ion-spinner {
   width: 100vw;
   height: 100vh;
   background: #ffffff;
+
+  h4 {
+    margin-top: 6vh;
+  }
+
+  .input-con {
+    padding: 3vh;
+
+    .input-item {
+      padding-bottom: 2vh;
+      --padding-start: 0;
+    }
+  }
 }

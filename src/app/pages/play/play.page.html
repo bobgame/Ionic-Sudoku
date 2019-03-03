@@ -1,26 +1,14 @@
 <ion-header [ngClass]="{'show': sudoShow.sudoReady}">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+    <ion-buttons slot="start" (click)="outPageButtonClicked()">
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button defaultHref="home" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{LanData?.home.title}}</ion-title>
-    <ion-buttons slot="end">
-      <!-- <ion-button text-center (click)="newGame()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button> -->
-      <!-- <ion-fab class="more-btn">
-        <ion-fab-button>
-          <ion-icon name="arrow-dropleft"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-list side="start">
-          <ion-fab-button>
-            <ion-icon name="add" (click)="newGame()"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button routerLink="/rank">
-            <ion-icon name="podium"></ion-icon>
-          </ion-fab-button>
-        </ion-fab-list>
-      </ion-fab> -->
+    <ion-buttons slot="end" *ngIf="!goPageStatus">
+      <ion-button text-center routerLink="/setting" (click)="outPageButtonClicked()">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
       <ion-button text-center *ngIf="!playBtnStatus" (click)="clickPlayOrPauseBtn()">
         <ion-icon name="pause"></ion-icon>
       </ion-button>
@@ -30,127 +18,161 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content [scrollY]="false">
+  <div class="container" [ngClass]="{'show': sudoShow.sudoReady && !goPageStatus}">
+    <div class="game-header">
+      <ion-row>
+        <ion-col size="4" text-left>
+          {{getModeName() | uppercase}}
+        </ion-col>
+        <ion-col class="star-con" size="4">
+          <ion-icon class="star-item" src="assets/svg/star-full.svg"
+                    *ngFor="let star of starArr"
+                    [ngClass]="{'hide': star > sudoData.star}"></ion-icon>
+          <ion-icon class="star-item" src="assets/svg/star-empty.svg"
+                    *ngFor="let star of starArr"
+                    [ngClass]="{'hide': star <= sudoData.star}"></ion-icon>
+        </ion-col>
+        <ion-col size="4" text-right>
+          {{sudoShow.showTime}}
+        </ion-col>
+      </ion-row>
+    </div>
 
-<div class="container" [ngClass]="{'show': sudoShow.sudoReady}">
-  <div class="game-header">
-    <ion-row>
-      <ion-col size="4" text-left>
-        {{getModeName() | uppercase}}
-      </ion-col>
-      <ion-col class="star-con" size="4">
-        <ion-icon class="star-item" src="assets/svg/star-full.svg"
-                  *ngFor="let star of starArr"
-                  [ngClass]="{'hide': star > sudoData.star}"></ion-icon>
-        <ion-icon class="star-item" src="assets/svg/star-empty.svg"
-                  *ngFor="let star of starArr"
-                  [ngClass]="{'hide': star <= sudoData.star}"></ion-icon>
-      </ion-col>
-      <ion-col size="4" text-right>
-        {{sudoShow.showTime}}
-      </ion-col>
-    </ion-row>
-  </div>
-
-  <div class="number-content">
-    <div *ngFor="let s of numArr"
-         class="number-s"
-         [ngClass]="{'line-b-s': s % 3 != 0, 'line-b-m': s % 3 == 0 && s != 9}">
-      <div *ngFor="let h of numArr"
-           class="number-item"
-           [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9, 'num-tip-bg': sudoShow.tipNumberIndexes.indexOf(s * 10 + h) > -1}">
-        <div class="num" *ngIf="seeIfBlank(s * 10 + h)"
-             (click)="checkSomeNumbers(sudoData.sudoArr[s * 10 + h])">
-          {{sudoData.sudoPlayArr[s * 10 + h]}}
-        </div>
-        <div class="num num-empty"
-             *ngIf="!seeIfBlank(s * 10 + h)"
-             [ngClass]="{'active': sudoShow.playNumber == s * 10 + h, 'error': sudoData.errorArr.indexOf(s * 10 + h) > -1}"
-             (press)="numEmptyPress(s * 10 + h)"
-             (click)="setShowPlayNumber(s * 10 + h)">
-          <div *ngIf="!seeIfBlankBoard(s * 10 + h)">
+    <div class="number-content">
+      <div *ngFor="let s of numArr"
+           class="number-s"
+           [ngClass]="{'line-b-s': s % 3 != 0, 'line-b-m': s % 3 == 0 && s != 9}">
+        <div *ngFor="let h of numArr"
+             class="number-item"
+             [ngClass]="{'line-r-s': h % 3 != 0, 'line-r-m': h % 3 == 0 && h != 9, 'num-tip-bg': sudoShow.tipNumberIndexes.indexOf(s * 10 + h) > -1}">
+          <div class="num" *ngIf="seeIfBlank(s * 10 + h)"
+               (click)="checkSomeNumbers(sudoData.sudoArr[s * 10 + h])">
             {{sudoData.sudoPlayArr[s * 10 + h]}}
           </div>
-          <div class="small-con" *ngIf="seeIfBlankBoard(s * 10 + h)">
-            <div class="small-number" *ngFor="let n of numArr"
-                 [ngClass]="{'small-r-l': n % 3 != 0, 'small-b-l': n <= 6}">
-              <span [ngClass]="{'active': seeIfBlankBoardNumber(s * 10 + h, n)}">{{n}}</span>
+          <div class="num num-empty"
+               *ngIf="!seeIfBlank(s * 10 + h)"
+               [ngClass]="{'active': sudoShow.playNumber == s * 10 + h, 'error': sudoData.errorArr.indexOf(s * 10 + h) > -1}"
+               (press)="numEmptyPress(s * 10 + h)"
+               (click)="setShowPlayNumber(s * 10 + h)">
+            <div *ngIf="!seeIfBlankBoard(s * 10 + h)">
+              {{sudoData.sudoPlayArr[s * 10 + h]}}
+            </div>
+            <div class="small-con" *ngIf="seeIfBlankBoard(s * 10 + h)">
+              <div class="small-number" *ngFor="let n of numArr"
+                   [ngClass]="{'small-r-l': n % 3 != 0, 'small-b-l': n <= 6}">
+                <span [ngClass]="{'active': seeIfBlankBoardNumber(s * 10 + h, n)}">{{n}}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="game-bottom">
-    <div class="tools-btns" text-center>
-      <ion-button class="tool-btn"
-                  (click)="clearPlayNumber()"
-                  [disabled]="sudoShow.playNumber == null">
-        <ion-icon src="assets/svg/clear.svg" icon-only></ion-icon>
-      </ion-button>
-      <ion-button class="tool-btn small-btn"
-                  (click)="setThisEditBoardStatus()"
-                  [disabled]="sudoShow.playNumber == null">
-        <ion-icon src="assets/svg/small-no.svg"
-                  [ngClass]="{'active': !seeIfShowSmallBtn()}" icon-only></ion-icon>
-        <ion-icon src="assets/svg/small-yes.svg"
-                  [ngClass]="{'active': seeIfShowSmallBtn()}" icon-only></ion-icon>
-      </ion-button>
+    <div class="game-bottom">
+      <div class="tools-btns" text-center *ngIf="toolsButtonShow == 1">
+        <ion-button class="tool-btn"
+                    (click)="clearPlayNumber()"
+                    [disabled]="sudoShow.playNumber == null">
+          <ion-icon src="assets/svg/clear.svg" icon-only></ion-icon>
+        </ion-button>
+        <ion-button class="tool-btn small-btn"
+                    (click)="setThisEditBoardStatus()"
+                    [disabled]="sudoShow.playNumber == null">
+          <ion-icon src="assets/svg/small-no.svg"
+                    [ngClass]="{'active': !seeIfShowSmallBtn()}" icon-only></ion-icon>
+          <ion-icon src="assets/svg/small-yes.svg"
+                    [ngClass]="{'active': seeIfShowSmallBtn()}" icon-only></ion-icon>
+        </ion-button>
+        <ion-button class="tool-btn"
+                    (click)="toolsButtonShowSwitch()">
+          <ion-icon src="assets/svg/btn-page-1.svg" icon-only></ion-icon>
+        </ion-button>
+      </div>
+      <div class="tools-btns" text-center *ngIf="toolsButtonShow == 2">
+
+        <ion-button class="tool-btn" (click)="newGame()">
+          <ion-icon src="assets/svg/new.svg"></ion-icon>
+          <!-- <ion-icon name="add"></ion-icon> -->
+        </ion-button>
+        <ion-button class="tool-btn" routerLink="/rank" (click)="outPageButtonClicked()">
+          <ion-icon src="assets/svg/rank.svg"></ion-icon>
+          <!-- <ion-icon name="podium"></ion-icon> -->
+        </ion-button>
+        <ion-button class="tool-btn"
+                    (click)="toolsButtonShowSwitch()">
+          <ion-icon src="assets/svg/btn-page-2.svg" icon-only></ion-icon>
+        </ion-button>
+      </div>
+      <div class="number-btns">
+        <ion-button class="num-btn"
+                    *ngFor="let number of numArr"
+                    (click)="clickPlayNumber(number)"
+                    [disabled]="sudoShow.playNumber == null">
+          {{number}}
+        </ion-button>
+      </div>
+      <!-- <div class="game-btns" text-center> -->
+      <!-- <ion-button (click)="newGame()">New Game</ion-button> -->
+      <!-- <ion-card (press)="itemPressed($event)"></ion-card> -->
+      <!-- </div> -->
     </div>
-    <div class="number-btns">
-      <ion-button class="num-btn"
-                  *ngFor="let number of numArr"
-                  (click)="clickPlayNumber(number)"
-                  [disabled]="sudoShow.playNumber == null">
-        {{number}}
-      </ion-button>
-    </div>
-    <!-- <div class="game-btns" text-center> -->
-    <!-- <ion-button (click)="newGame()">New Game</ion-button> -->
-    <!-- <ion-card (press)="itemPressed($event)"></ion-card> -->
-    <!-- </div> -->
-  </div>
-  <div class="pause-mask" [ngClass]="{'show': playBtnStatus}" text-center>
-    <h2 class="title">
-      {{LanData?.sudo.pausing}}
-    </h2>
-    <div class="sub-title" text-left>
-      {{LanData?.sudo.ownStars}}
-    </div>
-    <ion-card *ngFor="let starItem of sudoData.allStars">
-      <ion-row>
-        <ion-col text-left class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-col>
-        <ion-col text-right class="star-num">{{starItem.starNum}}
-          <ion-icon src="assets/svg/star-full.svg" class="star"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-card>
-    <ion-button text-center (click)="clickPlayOrPauseBtn()">
-      <ion-icon name="play" slot="start"></ion-icon>
-      {{LanData?.common.continue}}
-    </ion-button>
-  </div>
-  <div class="win-mask" [ngClass]="{'show': sudoShow.nowGameWin}">
-    <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
-    <h1 class="sub-title" text-center>{{LanData?.common.got}}
-      <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">
-      </ion-icon>
-      x {{sudoShow.winStar}}
-    </h1>
-    <div class="btn-content" text-center>
-      <ion-button text-center (click)="newGame()">
-        <ion-icon name="add" slot="start"></ion-icon>
-        {{LanData?.common.newGame}}
-      </ion-button>
-      <ion-button routerLink="/home" text-center>
-        <ion-icon name="home" slot="start"></ion-icon>
-        {{LanData?.common.backHome}}
-      </ion-button>
-      <ion-button text-center (click)="nextLevelGame()">
+    <div class="pause-mask" [ngClass]="{'show': playBtnStatus}" text-center>
+      <h2 class="title">
+        {{LanData?.sudo.pausing}}
+      </h2>
+      <div class="sub-title" text-left>
+        {{LanData?.sudo.ownStars}}
+      </div>
+      <ion-card *ngFor="let starItem of sudoData.allStars">
+        <ion-row>
+          <ion-col text-left class="star-title">{{getModeNameWithIndex(starItem.mode)}}</ion-col>
+          <ion-col text-right class="star-num">{{starItem.starNum}}
+            <ion-icon src="assets/svg/star-full.svg" class="star"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-button text-center (click)="clickPlayOrPauseBtn()">
         <ion-icon name="play" slot="start"></ion-icon>
-        {{LanData?.common.nextLevel}}
+        {{LanData?.common.continue}}
       </ion-button>
+    </div>
+    <div class="win-mask" [ngClass]="{'show': sudoShow.nowGameWin}">
+      <h2 class="title" text-center>{{LanData?.common.congratulations}}</h2>
+      <h1 class="sub-title" text-center>{{LanData?.common.got}}
+        <ion-icon src=" assets/svg/star-full.svg" slot="end" class="star">
+        </ion-icon>
+        x {{sudoShow.winStar}}
+      </h1>
+      <div class="btn-content" text-center>
+        <ion-button text-center (click)="newGame()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          {{LanData?.common.newGame}}
+        </ion-button>
+        <ion-button routerLink="/home" text-center>
+          <ion-icon name="home" slot="start"></ion-icon>
+          {{LanData?.common.backHome}}
+        </ion-button>
+        <ion-button text-center (click)="nextLevelGame()">
+          <ion-icon name="play" slot="start"></ion-icon>
+          {{LanData?.common.nextLevel}}
+        </ion-button>
 
+      </div>
     </div>
   </div>
-</div>
+
+  <div class="container go-page" [ngClass]="{'show': goPageStatus}">
+    <h2 text-center>{{LanData?.home.title}}</h2>
+    <div text-center *ngIf="continueButton">
+      <ion-button (click)="continueSudo()" color="tertiary">
+        <ion-label>{{LanData?.common.continue}}</ion-label>
+      </ion-button>
+    </div>
+    <div *ngFor="let hard of hardModeName, let i = index" text-center>
+      <ion-button (click)="createNewGame(i)">
+        <ion-label>{{hard}}</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

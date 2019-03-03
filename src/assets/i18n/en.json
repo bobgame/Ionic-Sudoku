@@ -17,7 +17,11 @@
     "nextLevel": "Next Level",
     "congratulations": "Congratulations! You win!",
     "got": "Got",
-    "rankingList": "Ranking List"
+    "rankingList": "Ranking List",
+    "addRankingListSeeRankList": "Join and see the global ranking list",
+    "addRankingListTips": "Note: name can't be changed after creation",
+    "nameInputPlaceholder": "Enter name here",
+    "createAndJoin": "Create & Join Ranking List"
   },
   "home": {
     "title": "Fresh Sudoku",

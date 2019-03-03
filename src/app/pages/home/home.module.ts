@@ -14,12 +14,7 @@ import { HomePage } from './home.page';
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage,
-        children: [
-          { path: '', loadChildren: './main/main.module#MainPageModule' },
-          { path: 'main', loadChildren: './main/main.module#MainPageModule' },
-          { path: 'go-sudo', loadChildren: './go-sudo/go-sudo.module#GoSudoPageModule' },
-        ]
+        component: HomePage
       },
     ])
   ],

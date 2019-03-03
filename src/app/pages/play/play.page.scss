@@ -6,7 +6,7 @@
 
 ion-header {
   opacity: 0;
-  transition: all 1.5s;
+  transition: all 1s;
 
   &.show {
     opacity: 1;
@@ -44,16 +44,47 @@ ion-header {
 }
 
 .container {
+  position: absolute;
+  left: 0;
+  top: 0;
   opacity: 0;
-  transition: all 1.5s;
+  transition: all 1s;
   width: 100vw;
   height: calc(100vh - 44px);
   display: flex;
   flex-flow: column;
   background: #fff;
+  z-index: 2;
 
   &.show {
     opacity: 1;
+  }
+}
+
+.go-page {
+  z-index: 1;
+
+  &.show {
+    opacity: 1;
+    z-index: 3;
+  }
+
+  h2 {
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+    font-size: 1.8em;
+  }
+
+  ion-button {
+    width: 240px;
+    height: 44px;
+    margin-bottom: 3vh;
+    font-size: 18px;
+    --border-radius: 200px;
+
+    ion-icon {
+      --float: left;
+    }
   }
 }
 

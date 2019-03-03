@@ -38,11 +38,21 @@
     </div>
   </div>
   <div class="create-rank-con" *ngIf="!settings.sudo.userid && rankShow.ready">
-    <ion-item>
-      <ion-input clearInput placeholder="Enter Input" #nameInput></ion-input>
-    </ion-item>
-    <ion-button (click)="createRank(nameInput.value)">
-      <ion-label>Create Rank</ion-label>
-    </ion-button>
+    <h4 text-center padding>{{LanData?.common.addRankingListSeeRankList}}</h4>
+    <p text-center>{{LanData?.common.addRankingListTips}}</p>
+    <div class="input-con" text-center>
+      <ion-item class="input-item">
+        <ion-input clearInput
+                   placeholder="{{LanData?.common.nameInputPlaceholder}}"
+                   minlength="4"
+                   maxlength="20"
+                   #nameInput></ion-input>
+      </ion-item>
+      <ion-button (click)="createRank(nameInput.value)"
+                  [disabled]="!nameInput.value">
+        <ion-label>{{LanData?.common.createAndJoin}}</ion-label>
+      </ion-button>
+    </div>
   </div>
+
 </ion-content>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SudoService } from '../sudo/sudo.service';
+import { Storage } from '@ionic/storage';
 import { UserBack } from '../../datas/data-types';
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,12 +21,17 @@ export class RankService {
   sudoData: any
   // urlHost = 'http://47.92.132.100:603/sdkdb/'
   urlHost = 'http://localhost:603/sdkdb/'
+  // urlHost = 'http://192.168.199.207:603/sdkdb/'
 
   constructor(
     private http: HttpClient,
-    private sudoService: SudoService,
+    private storage: Storage,
   ) {
-    this.sudoData = this.sudoService.SudoData
+    this.storage.get('sd-data').then((data) => {
+      if (data) {
+        this.sudoData = data
+      }
+    })
   }
 
   getRankData(sortName: string, userid: string) {

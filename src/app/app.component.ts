@@ -14,9 +14,6 @@ import { LanService } from './service/lan/lan.service';
 })
 export class AppComponent implements OnInit {
 
-  sudoPlay = {
-    playId: 1,
-  }
   LanData: any
 
   constructor(
@@ -27,25 +24,20 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
-    private sudoService: SudoService,
     private lanService: LanService,
   ) {
     this.initializeApp()
-    this.sudoPlay = this.sudoService.SudoPlay
-    this.sudoPlay.playId = Math.floor(Math.random() * 1000)
-    // console.log('app component')
-    lanService.getLanguage().then(() => {
-      lanService.getLanJson()
+    this.lanService.getLanguage().then(() => {
+      this.lanService.getLanJson()
         .subscribe((data) => this.LanData = data);
-      lanService.getLanData()
+      this.lanService.getLanData()
     })
-    events.subscribe('lan:dataChange', (data) => {
+    this.events.subscribe('lan:dataChange', (data) => {
       this.LanData = data
     })
   }
 
   ngOnInit() {
-    // this.playId = this.getDate()
   }
 
   initializeApp() {

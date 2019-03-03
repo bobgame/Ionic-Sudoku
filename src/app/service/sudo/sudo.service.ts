@@ -56,9 +56,6 @@ export class SudoService {
     nowGameWin: false,
     winStar: 0,
   }
-  SudoPlay = {
-    playId: 1,
-  }
   showTimeInterval: any
 
   async InitSudo() {
@@ -67,14 +64,14 @@ export class SudoService {
         if (data.sudoArr.length > 0) {
           this.SudoData = data
           this.SudoShow.sudoReady = true
-          this.startShowTime()
+          // this.startShowTime()
           console.log('load datas')
         } else {
           this.SudoData = data
-          this.createNewGame(this.SudoData.nowMode)
+          // this.createNewGame(this.SudoData.nowMode)
         }
       } else {
-        this.createNewGame(this.SudoData.nowMode)
+        // this.createNewGame(this.SudoData.nowMode)
         // console.log('New sudo: ' + this.SudoData)
       }
       this.saveData()
