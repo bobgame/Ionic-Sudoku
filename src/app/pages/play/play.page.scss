@@ -5,12 +5,7 @@
 }
 
 ion-header {
-  opacity: 0;
   transition: all 1s;
-
-  &.show {
-    opacity: 1;
-  }
 }
 
 .more-btn {
