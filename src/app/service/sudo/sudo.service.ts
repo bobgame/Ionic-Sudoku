@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { CelShowTime } from '../../../utils/get-time';
 import { Storage } from '@ionic/storage';
 import { ActionSheetController } from '@ionic/angular';
+import { RankService } from '../rank/rank.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class SudoService {
     private alertController: AlertController,
     private actionSheetController: ActionSheetController,
     private storage: Storage,
+    private rankService: RankService,
   ) { }
   numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   starArr = [1, 2, 3, 4, 5]
@@ -447,25 +449,34 @@ export class SudoService {
   // 当输入完整时，检测结果
   checkResult() {
     if (this.SudoData.errorArr.length === 0) {
-      this.SudoShow.winStar = this.SudoData.star
-      const thisSudoStar = this.SudoData.allStars.find(s => s.mode === this.SudoData.nowMode)
-      thisSudoStar.starNum += this.SudoShow.winStar
-      thisSudoStar.totalTime += this.SudoData.time
-      this.SudoData.mode[this.SudoData.nowMode] += 1
-      console.log(this.SudoData.mode[this.SudoData.nowMode])
-      this.pauseShowTime()
-      this.SudoData.time = 0
-      this.SudoData.errorArr = []
-      this.SudoData.star = this.STAR_MAX
-      this.SudoShow.playNumber = null
-      this.SudoShow.tipNumberIndexes = []
-      this.SudoData.sudoArr = []
-      this.SudoShow.nowGameWin = true
+      this.resetGame()
       this.saveData()
+      this.sendToUpdateData(this.SudoData)
       // this.simpleAlert('Tips', 'Congratulations! You win!')
     } else {
       this.showErrors()
     }
+  }
+
+  resetGame() {
+    this.SudoShow.winStar = this.SudoData.star
+    const thisSudoStar = this.SudoData.allStars.find(s => s.mode === this.SudoData.nowMode)
+    thisSudoStar.starNum += this.SudoShow.winStar
+    thisSudoStar.totalTime += this.SudoData.time
+    this.SudoData.mode[this.SudoData.nowMode] += 1
+    console.log(this.SudoData.mode[this.SudoData.nowMode])
+    this.pauseShowTime()
+    this.SudoData.time = 0
+    this.SudoData.errorArr = []
+    this.SudoData.star = this.STAR_MAX
+    this.SudoShow.playNumber = null
+    this.SudoShow.tipNumberIndexes = []
+    this.SudoData.sudoArr = []
+    this.SudoShow.nowGameWin = true
+  }
+
+  sendToUpdateData(sudoData) {
+    this.rankService.sendToUpdateData(sudoData)
   }
 
   // 存档

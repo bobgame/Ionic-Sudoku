@@ -19,19 +19,14 @@ export class RankService {
     dataReady: false
   }
   sudoData: any
-  // urlHost = 'http://47.92.132.100:603/sdkdb/'
-  urlHost = 'http://localhost:603/sdkdb/'
+  urlHost = 'http://47.92.132.100:603/sdkdb/'
+  // urlHost = 'http://localhost:603/sdkdb/'
   // urlHost = 'http://192.168.199.207:603/sdkdb/'
 
   constructor(
     private http: HttpClient,
     private storage: Storage,
   ) {
-    this.storage.get('sd-data').then((data) => {
-      if (data) {
-        this.sudoData = data
-      }
-    })
   }
 
   getRankData(sortName: string, userid: string) {
@@ -43,20 +38,46 @@ export class RankService {
     return this.http.post(url, { data: postData }, httpOptions)
   }
 
-  createRank(userName: string) {
+  createRank(userName: string, sudoData) {
     const url = this.urlHost + 'create'
+    console.log(sudoData)
     const postData = {
       name: userName,
-      starterTime: this.sudoData.allStars[0].totalTime,
-      starterStar: this.sudoData.allStars[0].starNum,
-      starterLevel: this.sudoData.mode[0],
-      normalTime: this.sudoData.allStars[1].totalTime,
-      normalStar: this.sudoData.allStars[2].starNum,
-      normalLevel: this.sudoData.mode[1],
-      masterTime: this.sudoData.allStars[2].totalTime,
-      masterStar: this.sudoData.allStars[2].starNum,
-      masterLevel: this.sudoData.mode[2],
+      starterTime: sudoData.allStars[0].totalTime,
+      starterStar: sudoData.allStars[0].starNum,
+      starterLevel: sudoData.mode[0],
+      normalTime: sudoData.allStars[1].totalTime,
+      normalStar: sudoData.allStars[2].starNum,
+      normalLevel: sudoData.mode[1],
+      masterTime: sudoData.allStars[2].totalTime,
+      masterStar: sudoData.allStars[2].starNum,
+      masterLevel: sudoData.mode[2],
     }
     return this.http.post<UserBack>(url, { data: postData }, httpOptions)
+  }
+
+  sendToUpdateData(sudoData) {
+    this.storage.get('sd-setting').then((setting) => {
+      if (setting) {
+        if (setting.sudo.userid !== '') {
+          const url = this.urlHost + 'update'
+          const postData = {
+            userid: setting.sudo.userid,
+            starterTime: sudoData.allStars[0].totalTime,
+            starterStar: sudoData.allStars[0].starNum,
+            starterLevel: sudoData.mode[0],
+            normalTime: sudoData.allStars[1].totalTime,
+            normalStar: sudoData.allStars[2].starNum,
+            normalLevel: sudoData.mode[1],
+            masterTime: sudoData.allStars[2].totalTime,
+            masterStar: sudoData.allStars[2].starNum,
+            masterLevel: sudoData.mode[2],
+          }
+          this.http.post(url, { data: postData }, httpOptions).subscribe((res) => {
+            console.log(res)
+          })
+        }
+      }
+    })
   }
 }

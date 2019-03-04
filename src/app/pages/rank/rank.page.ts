@@ -3,6 +3,7 @@ import { RankService } from '../../service/rank/rank.service';
 import { SettingService } from '../../service/setting/setting.service';
 import { LanService } from '../../service/lan/lan.service';
 import { Events } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-rank',
@@ -36,6 +37,7 @@ export class RankPage implements OnInit {
     private settingService: SettingService,
     private lanService: LanService,
     private events: Events,
+    private storage: Storage,
   ) {
     this.rankShow = this.rankService.RankShow
     this.lanService.getLanguage().then(() => {
@@ -74,12 +76,16 @@ export class RankPage implements OnInit {
   }
 
   createRank(name: string) {
-    this.rankService.createRank(name).subscribe((res) => {
-      // console.log(res)
-      this.settings.sudo.userid = res.userid
-      this.settings.sudo.username = res.username
-      this.settingService.saveSettingDatas()
-      this.getRankDatas(res.userid)
+    this.storage.get('sd-data').then((data) => {
+      if (data) {
+        this.rankService.createRank(name, data).subscribe((res) => {
+          // console.log(res)
+          this.settings.sudo.userid = res.userid
+          this.settings.sudo.username = res.username
+          this.settingService.saveSettingDatas()
+          this.getRankDatas(res.userid)
+        })
+      }
     })
   }
 
