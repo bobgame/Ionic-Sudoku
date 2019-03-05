@@ -36,12 +36,13 @@
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
-    "cordova-sqlite-storage": "3.0.0",
+    "cordova-sqlite-storage": "^3.0.0",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "ionic": "^4.10.3",
     "rxjs": "~6.3.3",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "cordova-ios": "~4.5.5"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.12.3",
@@ -83,7 +84,8 @@
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
