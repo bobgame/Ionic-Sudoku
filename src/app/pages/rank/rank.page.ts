@@ -90,7 +90,7 @@ export class RankPage implements OnInit {
   }
 
   switchTab(tabName: string) {
-    this.rankShow.nav = tabName
+    this.rankShow.nav = tabName + 'Star'
     this.showDataName = tabName + 'Star'
   }
 

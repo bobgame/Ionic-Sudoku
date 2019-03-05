@@ -14,7 +14,7 @@ const httpOptions = {
 export class RankService {
 
   RankShow = {
-    nav: 'starter',
+    nav: 'starterStar',
     ready: false,
     dataReady: false
   }

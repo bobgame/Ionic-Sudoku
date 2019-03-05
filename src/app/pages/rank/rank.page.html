@@ -10,13 +10,13 @@
 <ion-content padding [scrollY]="false">
   <div class="rank-nav-container" *ngIf="settings.sudo.userid && rankShow.ready">
     <div class="rank-nav-bar">
-      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'starter'}" (click)="switchTab('starter')">
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'starterStar'}" (click)="switchTab('starter')">
         <ion-label>{{LanData?.common.starter}}</ion-label>
       </div>
-      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'normal'}" (click)="switchTab('normal')">
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'normalStar'}" (click)="switchTab('normal')">
         <ion-label>{{LanData?.common.normal}}</ion-label>
       </div>
-      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'master'}" (click)="switchTab('master')">
+      <div class="rank-nav-btn" [ngClass]="{'active': rankShow.nav == 'masterStar'}" (click)="switchTab('master')">
         <ion-label>{{LanData?.common.master}}</ion-label>
       </div>
     </div>
