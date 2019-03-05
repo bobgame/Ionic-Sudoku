@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-versionCode="2" id="com.llbnew.simplesudo" ios-CFBundleVersion="2" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Bob NgSudo</name>
+    <name>IonSudoku</name>
     <description>Create by Bob Liu</description>
     <author email="liulingbo@foxmail.com" href="http://game.llbnew.com">Bob Game</author>
     <content src="index.html" />
